@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f4c0ac56a0d84b6b820a82049e394f5f" Name="Diagram1">
+        <EntityTypeShape EntityType="PureCleanDBModel.Clients" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.ItemTypes" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Materials" Width="1.5" PointX="7.5" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.MaterialSupplies" Width="1.5" PointX="9.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.MaterialUsages" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.OrderItemDetails" Width="1.5" PointX="9.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.OrderItems" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Orders" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Reviews" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Roles" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.ServiceCategories" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Services" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Suppliers" Width="1.5" PointX="7.5" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Users" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="PureCleanDBModel.FK__Orders__ClientID__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__OrderItem__ItemT__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__MaterialS__Mater__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__MaterialU__Mater__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__MaterialS__Suppl__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__MaterialU__Order__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__OrderItem__Order__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__OrderItem__Order__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__OrderItem__Servi__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__Orders__UserID__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__Reviews__OrderID__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__Users__RoleID__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="PureCleanDBModel.FK__Services__Catego__5DCAEF64" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
