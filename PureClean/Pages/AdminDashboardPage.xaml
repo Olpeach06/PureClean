@@ -6,7 +6,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="Панель администратора" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      KeyDown="Page_KeyDown">
 
     <Grid>
         <!-- Основной контент -->
@@ -40,15 +41,55 @@
                                    FontSize="24" 
                                    FontWeight="Bold"
                                    Foreground="#333333"/>
+
+                        <!-- Кнопка обновления -->
+                        <Button x:Name="btnRefresh"
+                                Content="🔄 Обновить"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Height="35"
+                                FontSize="13"
+                                Margin="20,0,0,0"
+                                Padding="10,0"
+                                Cursor="Hand"
+                                Click="RefreshButton_Click"
+                                ToolTip="Обновить данные (F5)">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
 
                     <!-- Карточки статистики -->
-                    <WrapPanel Margin="0,0,0,30">
-                        <!-- Карточка 1 -->
+                    <WrapPanel x:Name="statsPanel" Margin="0,0,0,30">
+                        <!-- Карточка 1: Всего пользователей -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
-                                Margin="0,0,20,20">
+                                Margin="0,0,20,20"
+                                Cursor="Hand"
+                                ToolTip="Кликните для деталей">
 
                             <Border.Style>
                                 <Style TargetType="Border">
@@ -58,7 +99,8 @@
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="42"
+                                <TextBlock x:Name="txtUsersCount"
+                                           Text="0"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -68,11 +110,14 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Карточка 2 -->
+                        <!-- Карточка 2: Всего заказов -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
-                                Margin="0,0,20,20">
+                                Margin="0,0,20,20"
+                                Cursor="Hand"
+                                ToolTip="Кликните для статистики заказов"
+                                MouseLeftButtonDown="OrdersStatsButton_Click">
 
                             <Border.Style>
                                 <Style TargetType="Border">
@@ -82,7 +127,8 @@
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="156"
+                                <TextBlock x:Name="txtOrdersCount"
+                                           Text="0"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -92,7 +138,7 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Карточка 3 -->
+                        <!-- Карточка 3: Общая выручка -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
@@ -106,17 +152,21 @@
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="89 500 ₽"
+                                <TextBlock x:Name="txtRevenue"
+                                           Text="0 ₽"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
                                 <TextBlock Text="Общая выручка"
                                            FontSize="14"
                                            Foreground="#666666"/>
+                                <TextBlock Text="(завершенные заказы)"
+                                           FontSize="11"
+                                           Foreground="#999999"/>
                             </StackPanel>
                         </Border>
 
-                        <!-- Карточка 4 -->
+                        <!-- Карточка 4: Услуг в каталоге -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
@@ -130,7 +180,8 @@
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="9"
+                                <TextBlock x:Name="txtServicesCount"
+                                           Text="0"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -148,14 +199,16 @@
                                Margin="0,0,0,20"/>
 
                     <WrapPanel Margin="0,0,0,30">
-                        <Button Content="Управление пользователями"
-                                Width="220" 
+                        <Button Content="👥 Управление пользователями"
+                                Width="240" 
                                 Height="50"
                                 Margin="0,0,20,20"
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="ManageUsersButton_Click"
+                                ToolTip="Управление пользователями и ролями">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -182,14 +235,18 @@
                             </Button.Style>
                         </Button>
 
-                        <Button Content="Настройки системы"
-                                Width="220" 
+                        
+
+                        <Button Content="💾 Резервное копирование"
+                                Width="240" 
                                 Height="50"
                                 Margin="0,0,20,20"
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="BackupButton_Click"
+                                ToolTip="Создать резервную копию БД">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -216,48 +273,16 @@
                             </Button.Style>
                         </Button>
 
-                        <Button Content="Резервное копирование"
-                                Width="220" 
+                        <Button Content="📊 Детальные логи"
+                                Width="240" 
                                 Height="50"
                                 Margin="0,0,20,20"
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand">
-
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                        <Button Content="Логи системы"
-                                Width="220" 
-                                Height="50"
-                                Margin="0,0,20,20"
-                                Background="#c69fd5"
-                                Foreground="White"
-                                FontSize="14"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="LogsButton_Click"
+                                ToolTip="Подробная статистика системы">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -286,48 +311,110 @@
                     </WrapPanel>
 
                     <!-- Активность системы -->
-                    <TextBlock Text="Активность системы"
-                               FontSize="18" 
-                               FontWeight="Bold"
-                               Margin="0,0,0,20"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="📈 Активность системы"
+                                   FontSize="18" 
+                                   FontWeight="Bold"/>
+                        <TextBlock Text=" (последние 10 событий)"
+                                   FontSize="12"
+                                   Foreground="#666666"
+                                   Margin="5,0,0,0"
+                                   VerticalAlignment="Bottom"/>
+                    </StackPanel>
 
                     <Border Background="#fdfdc9"
                             Padding="15"
-                            Margin="0,0,0,30">
-
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Border.Style>
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
 
                         <DataGrid x:Name="activityGrid"
                                   AutoGenerateColumns="False"
                                   CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  CanUserReorderColumns="False"
+                                  CanUserResizeRows="False"
+                                  CanUserSortColumns="True"
+                                  SelectionMode="Single"
+                                  SelectionUnit="FullRow"
+                                  IsReadOnly="True"
                                   BorderThickness="0"
-                                  Background="Transparent">
+                                  Background="Transparent"
+                                  HeadersVisibility="Column"
+                                  RowHeight="35"
+                                  FontSize="13">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Время" 
                                                     Binding="{Binding Time}"
-                                                    Width="100"/>
+                                                    Width="80"
+                                                    />
 
                                 <DataGridTextColumn Header="Пользователь" 
                                                     Binding="{Binding User}"
-                                                    Width="150"/>
+                                                    Width="140"
+                                                    />
 
                                 <DataGridTextColumn Header="Действие" 
                                                     Binding="{Binding Action}"
-                                                    Width="200"/>
+                                                    Width="180"
+                                                    />
 
                                 <DataGridTextColumn Header="Детали" 
                                                     Binding="{Binding Details}"
-                                                    Width="250"/>
+                                                    Width="*"
+                                                    />
                             </DataGrid.Columns>
+
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="8,5"/>
+                                    <Setter Property="Foreground" Value="#333333"/>
+                                </Style>
+                            </DataGrid.CellStyle>
+
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="BorderBrush" Value="#e0e0e0"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#f5f5f5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
                         </DataGrid>
+                    </Border>
+
+                    <!-- Статус загрузки -->
+                    <Border x:Name="statusBorder"
+                            Background="#f0f0f0"
+                            Padding="10"
+                            CornerRadius="5"
+                            HorizontalAlignment="Left"
+                            Visibility="Collapsed"
+                            Margin="0,10,0,0">
+                        <TextBlock x:Name="statusText"
+                                   Foreground="#666666"
+                                   FontSize="12"/>
                     </Border>
                 </StackPanel>
             </ScrollViewer>
         </Border>
     </Grid>
+
+    <Page.Resources>
+        <!-- Стиль для заголовков колонок DataGrid -->
+        <Style x:Key="DataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#fdfdc9"/>
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="#c69fd5"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </Page.Resources>
 </Page>

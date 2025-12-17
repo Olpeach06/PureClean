@@ -40,5 +40,7 @@ namespace PureClean
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Cart> Cart { get; set; }
+        public virtual DbSet<CartItems> CartItems { get; set; }
     }
 }

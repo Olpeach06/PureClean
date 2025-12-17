@@ -183,28 +183,72 @@
                                        Foreground="#333333"
                                        FontWeight="SemiBold"
                                        FontSize="13"/>
-                            <PasswordBox x:Name="txtPassword"
-                                             Padding="10"
-                                             FontSize="14">
-                                <PasswordBox.Style>
-                                    <Style TargetType="PasswordBox">
-                                        <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                        <Setter Property="BorderThickness" Value="1"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="PasswordBox">
-                                                    <Border CornerRadius="5" 
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                                Background="{TemplateBinding Background}">
-                                                        <ScrollViewer x:Name="PART_ContentHost"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </PasswordBox.Style>
-                            </PasswordBox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <PasswordBox x:Name="txtPassword"
+                                                 Grid.Column="0"
+                                                 Padding="10"
+                                                 FontSize="14">
+                                    <PasswordBox.Style>
+                                        <Style TargetType="PasswordBox">
+                                            <Setter Property="BorderBrush" Value="#c69fd5"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="PasswordBox">
+                                                        <Border CornerRadius="5" 
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    Background="{TemplateBinding Background}">
+                                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </PasswordBox.Style>
+                                </PasswordBox>
+
+                                <!-- Кнопка просмотра пароля -->
+                                <Button x:Name="btnShowPassword"
+                                            Grid.Column="1"
+                                            Width="40"
+                                            Content="👁"
+                                            FontSize="14"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Margin="5,0,0,0"
+                                            Cursor="Hand"
+                                            Click="ShowPassword_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="border"
+                                                                    CornerRadius="5"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                                  VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
                         </StackPanel>
 
                         <!-- Подтверждение пароля -->
@@ -213,28 +257,72 @@
                                        Foreground="#333333"
                                        FontWeight="SemiBold"
                                        FontSize="13"/>
-                            <PasswordBox x:Name="txtConfirmPassword"
-                                             Padding="10"
-                                             FontSize="14">
-                                <PasswordBox.Style>
-                                    <Style TargetType="PasswordBox">
-                                        <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                        <Setter Property="BorderThickness" Value="1"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="PasswordBox">
-                                                    <Border CornerRadius="5" 
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                                Background="{TemplateBinding Background}">
-                                                        <ScrollViewer x:Name="PART_ContentHost"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </PasswordBox.Style>
-                            </PasswordBox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <PasswordBox x:Name="txtConfirmPassword"
+                                                 Grid.Column="0"
+                                                 Padding="10"
+                                                 FontSize="14">
+                                    <PasswordBox.Style>
+                                        <Style TargetType="PasswordBox">
+                                            <Setter Property="BorderBrush" Value="#c69fd5"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="PasswordBox">
+                                                        <Border CornerRadius="5" 
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    Background="{TemplateBinding Background}">
+                                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </PasswordBox.Style>
+                                </PasswordBox>
+
+                                <!-- Кнопка просмотра подтверждения пароля -->
+                                <Button x:Name="btnShowConfirmPassword"
+                                            Grid.Column="1"
+                                            Width="40"
+                                            Content="👁"
+                                            FontSize="14"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Margin="5,0,0,0"
+                                            Cursor="Hand"
+                                            Click="ShowConfirmPassword_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="border"
+                                                                    CornerRadius="5"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                                  VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="border" Property="Background" Value="#F0F0F0"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
@@ -268,7 +356,7 @@
                             BorderThickness="0"
                             Margin="0,0,0,20"
                             Cursor="Hand">
-                    <Button.Resources>
+                    <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -293,7 +381,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Style>
-                    </Button.Resources>
+                    </Button.Style>
                 </Button>
 
                 <!-- Ссылка на вход -->

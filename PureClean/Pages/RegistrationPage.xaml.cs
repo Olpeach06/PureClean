@@ -15,11 +15,12 @@ using System.Windows.Shapes;
 
 namespace PureClean.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для RegistrationPage.xaml
-    /// </summary>
     public partial class RegistrationPage : Page
     {
+        // Переменные для хранения видимости паролей
+        private bool _isPasswordVisible = false;
+        private bool _isConfirmPasswordVisible = false;
+
         public RegistrationPage()
         {
             InitializeComponent();
@@ -77,11 +78,11 @@ namespace PureClean.Pages
                         return;
                     }
 
-                    // Создаем нового пользователя
+                    // Создаем нового пользователя (пароль сохраняется как есть)
                     var newUser = new Users
                     {
                         Login = txtEmail.Text, // Используем email как логин
-                        PasswordHash = HashPassword(txtPassword.Password), // Хэшируем пароль
+                        Password = txtPassword.Password, // Сохраняем пароль в открытом виде
                         Email = txtEmail.Text,
                         Phone = string.IsNullOrWhiteSpace(txtPhone.Text) ? null : txtPhone.Text,
                         FirstName = txtFirstName.Text.Trim(),
@@ -108,16 +109,96 @@ namespace PureClean.Pages
             }
         }
 
-        // Метод хэширования пароля (упрощенный вариант)
-        private string HashPassword(string password)
+        // Метод для показа/скрытия пароля
+        private void ShowPassword_Click(object sender, RoutedEventArgs e)
         {
-            // В реальном проекте используйте более надежные методы хэширования
-            // Например: BCrypt, PBKDF2, Argon2
-            using (var sha = System.Security.Cryptography.SHA256.Create())
+            TogglePasswordVisibility(txtPassword, btnShowPassword, ref _isPasswordVisible);
+        }
+
+        private void ShowConfirmPassword_Click(object sender, RoutedEventArgs e)
+        {
+            TogglePasswordVisibility(txtConfirmPassword, btnShowConfirmPassword, ref _isConfirmPasswordVisible);
+        }
+
+        private void TogglePasswordVisibility(PasswordBox passwordBoxControl, Button toggleButton, ref bool isVisible)
+        {
+            if (!isVisible)
             {
-                var bytes = System.Text.Encoding.UTF8.GetBytes(password);
-                var hash = sha.ComputeHash(bytes);
-                return Convert.ToBase64String(hash);
+                // Создаем временный TextBox для отображения пароля
+                var textBox = new TextBox
+                {
+                    Text = passwordBoxControl.Password,
+                    FontSize = passwordBoxControl.FontSize,
+                    Padding = passwordBoxControl.Padding,
+                    BorderThickness = passwordBoxControl.BorderThickness,
+                    BorderBrush = passwordBoxControl.BorderBrush,
+                    Background = passwordBoxControl.Background
+                };
+
+                // Заменяем PasswordBox на TextBox
+                var parent = passwordBoxControl.Parent as Grid;
+                if (parent != null)
+                {
+                    var column = Grid.GetColumn(passwordBoxControl);
+                    var row = Grid.GetRow(passwordBoxControl);
+
+                    parent.Children.Remove(passwordBoxControl);
+                    Grid.SetColumn(textBox, column);
+                    Grid.SetRow(textBox, row);
+                    parent.Children.Add(textBox);
+
+                    // Сохраняем ссылку на PasswordBox в Tag TextBox
+                    textBox.Tag = passwordBoxControl;
+
+                    // Меняем иконку кнопки
+                    toggleButton.Content = "🙈";
+                    isVisible = true;
+
+                    // Фокус на TextBox
+                    textBox.Focus();
+                }
+            }
+            else
+            {
+                // Восстанавливаем PasswordBox
+                var parent = toggleButton.Parent as Grid;
+                if (parent != null)
+                {
+                    // Ищем TextBox в той же колонке
+                    TextBox textBoxToRemove = null;
+                    foreach (var child in parent.Children)
+                    {
+                        if (child is TextBox textBox && Grid.GetColumn(textBox) == Grid.GetColumn(toggleButton) - 1)
+                        {
+                            textBoxToRemove = textBox;
+                            break;
+                        }
+                    }
+
+                    if (textBoxToRemove != null)
+                    {
+                        var passwordBox = textBoxToRemove.Tag as PasswordBox;
+                        if (passwordBox != null)
+                        {
+                            passwordBox.Password = textBoxToRemove.Text;
+
+                            var column = Grid.GetColumn(textBoxToRemove);
+                            var row = Grid.GetRow(textBoxToRemove);
+
+                            parent.Children.Remove(textBoxToRemove);
+                            Grid.SetColumn(passwordBox, column);
+                            Grid.SetRow(passwordBox, row);
+                            parent.Children.Add(passwordBox);
+
+                            // Меняем иконку кнопки обратно
+                            toggleButton.Content = "👁";
+                            isVisible = false;
+
+                            // Фокус на PasswordBox
+                            passwordBox.Focus();
+                        }
+                    }
+                }
             }
         }
 

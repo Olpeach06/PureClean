@@ -6,20 +6,72 @@
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="Каталог услуг" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
     <Grid>
+        <!-- Шапка с навигацией -->
+        <Border Grid.Row="0" 
+                Background="#c69fd5" 
+                Height="50"
+                VerticalAlignment="Top"
+                Margin="0,0,0,20"
+                CornerRadius="0,0,15,15">
+
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Margin="0,0,20,0">
+
+                <!-- Иконка корзины с количеством -->
+                <Border x:Name="cartBorder"
+                        Background="White" 
+                        CornerRadius="20" 
+                        Padding="8,5"
+                        Margin="0,0,15,0"
+                        Cursor="Hand"
+                        ToolTip="Перейти в корзину"
+                        MouseLeftButtonDown="CartIcon_MouseLeftButtonDown">
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🛒" 
+                                   FontSize="16"
+                                   Margin="0,0,5,0"/>
+                        
+                    </StackPanel>
+                </Border>
+
+                <!-- Кнопки навигации -->
+                <Button x:Name="btnMyOrders"
+                        Content="Мои заказы"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="14"
+                        Padding="10,5"
+                        Cursor="Hand"
+                        Click="MyOrdersButton_Click"/>
+
+                <Button x:Name="btnProfile"
+                        Content="Профиль"
+                        Background="Transparent"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="14"
+                        Padding="10,5"
+                        Margin="10,0,0,0"
+                        Cursor="Hand"
+                        Click="ProfileButton_Click"/>
+            </StackPanel>
+        </Border>
+
         <!-- Панель фильтров -->
         <Border Width="300" 
                 Background="White"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Stretch">
-
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="0,15,15,0"/>
-                </Style>
-            </Border.Style>
+                VerticalAlignment="Stretch"
+                Margin="20,70,0,20"
+                CornerRadius="15">
 
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" 
@@ -43,26 +95,20 @@
                         <TextBox x:Name="txtSearch"
                                  Padding="10"
                                  FontSize="14"
-                                 TextChanged="SearchTextBox_TextChanged">
+                                 TextChanged="SearchTextBox_TextChanged"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1">
 
-                            <TextBox.Style>
-                                <Style TargetType="TextBox">
-                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="TextBox">
-                                                <Border CornerRadius="5" 
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        Background="{TemplateBinding Background}">
-                                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </TextBox.Style>
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border CornerRadius="5" 
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}">
+                                        <ScrollViewer x:Name="PART_ContentHost"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </TextBox.Template>
                         </TextBox>
                     </StackPanel>
 
@@ -93,26 +139,20 @@
                                 <TextBox x:Name="txtMinPrice"
                                          Text="0"
                                          Width="80"
-                                         Padding="5">
+                                         Padding="5"
+                                         BorderBrush="#c69fd5"
+                                         BorderThickness="1">
 
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox">
-                                            <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                            <Setter Property="BorderThickness" Value="1"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="TextBox">
-                                                        <Border CornerRadius="3" 
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                                Background="{TemplateBinding Background}">
-                                                            <ScrollViewer x:Name="PART_ContentHost"/>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </TextBox.Style>
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border CornerRadius="3" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </TextBox.Template>
                                 </TextBox>
                             </StackPanel>
 
@@ -121,28 +161,22 @@
                                            Width="30"
                                            VerticalAlignment="Center"/>
                                 <TextBox x:Name="txtMaxPrice"
-                                         Text="0"
+                                         Text="5000"
                                          Width="80"
-                                         Padding="5">
+                                         Padding="5"
+                                         BorderBrush="#c69fd5"
+                                         BorderThickness="1">
 
-                                    <TextBox.Style>
-                                        <Style TargetType="TextBox">
-                                            <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                            <Setter Property="BorderThickness" Value="1"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="TextBox">
-                                                        <Border CornerRadius="3" 
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                                Background="{TemplateBinding Background}">
-                                                            <ScrollViewer x:Name="PART_ContentHost"/>
-                                                        </Border>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </TextBox.Style>
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border CornerRadius="3" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </TextBox.Template>
                                 </TextBox>
                             </StackPanel>
                         </StackPanel>
@@ -152,14 +186,10 @@
                     <StackPanel Margin="0,0,0,20">
                         <CheckBox x:Name="chkExpensive"
                                   Content="Только дорогие (>1000 руб)"
-                                  FontSize="14">
-
-                            <CheckBox.Style>
-                                <Style TargetType="CheckBox">
-                                    <Setter Property="Foreground" Value="#333333"/>
-                                </Style>
-                            </CheckBox.Style>
-                        </CheckBox>
+                                  FontSize="14"
+                                  Foreground="#333333"
+                                  Checked="CheckBoxFilter_Changed"
+                                  Unchecked="CheckBoxFilter_Changed"/>
                     </StackPanel>
 
                     <!-- Кнопка сброса -->
@@ -173,31 +203,26 @@
                             FontSize="13"
                             HorizontalAlignment="Center"
                             Margin="0,30,0,0"
-                            Cursor="Hand">
+                            Cursor="Hand"
+                            Click="btnResetFilters_Click">
 
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border x:Name="border"
-                                                    CornerRadius="5"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="border" Property="Background" Value="#fdfdc9"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="resetBorder"
+                                        CornerRadius="5"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="resetBorder" Property="Background" Value="#fdfdc9"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
                 </StackPanel>
             </ScrollViewer>
@@ -205,7 +230,7 @@
 
         <!-- Основной контент -->
         <Border Background="Transparent"
-                Margin="320,20,20,20"
+                Margin="340,70,20,20"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
 
@@ -236,17 +261,11 @@
                                Margin="0,0,10,0"/>
                         <ComboBox x:Name="cmbSort"
                                   Width="150"
-                                  SelectionChanged="SortComboBox_SelectionChanged">
-
-                            <ComboBox.Style>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Padding" Value="5"/>
-                                    <Setter Property="Background" Value="White"/>
-                                </Style>
-                            </ComboBox.Style>
-
+                                  SelectionChanged="SortComboBox_SelectionChanged"
+                                  BorderBrush="#c69fd5"
+                                  BorderThickness="1"
+                                  Padding="5"
+                                  Background="White">
                             <ComboBoxItem Content="По умолчанию"/>
                             <ComboBoxItem Content="По возрастанию цены"/>
                             <ComboBoxItem Content="По убыванию цены"/>
@@ -254,117 +273,42 @@
                         </ComboBox>
                     </StackPanel>
 
-                    <!-- Кнопки управления (справа) -->
-                    <StackPanel Orientation="Horizontal"
-                                Margin="30,0,0,0" Width="379">
+                    <!-- Кнопки управления (справа) - только для админов/менеджеров -->
+                    <StackPanel x:Name="adminControlsPanel"
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right"
+                                Margin="70,0,0,0"
+                                Visibility="Collapsed">
+
                         <Button x:Name="btnAdd"
-                                Content="Добавить"
+                                Content="Добавить услугу"
                                 Background="#c69fd5"
                                 Foreground="White"
                                 BorderThickness="0"
                                 Height="35"
-                                Width="100"
+                                Width="140"
                                 FontSize="13"
                                 Margin="0,0,10,0"
                                 Cursor="Hand"
                                 Click="AddButton_Click">
 
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#b58ac4"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                        <Button x:Name="btnEdit"
-                                Content="Редактировать"
-                                Background="#6a9fb5"
-                                Foreground="White"
-                                BorderThickness="0"
-                                Height="35"
-                                Width="120"
-                                FontSize="13"
-                                Margin="0,0,10,0"
-                                Cursor="Hand"
-                                Click="EditButton_Click">
-
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#5a8da5"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                        <Button x:Name="btnDelete"
-                                Content="Удалить"
-                                Background="#ac4142"
-                                Foreground="White"
-                                BorderThickness="0"
-                                Height="35"
-                                Width="100"
-                                FontSize="13"
-                                Cursor="Hand"
-                                Click="DeleteButton_Click">
-
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#9c3132"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="addBorder"
+                                            CornerRadius="5"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="addBorder" Property="Background" Value="#b58ac4"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
                     </StackPanel>
                 </StackPanel>
@@ -379,6 +323,33 @@
                         <!-- Услуги будут добавляться динамически -->
                     </WrapPanel>
                 </ScrollViewer>
+
+                <!-- Сообщение при отсутствии услуг -->
+                <Border x:Name="noServicesPanel"
+                        Grid.Row="1"
+                        Background="White"
+                        CornerRadius="10"
+                        Padding="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="Collapsed">
+
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="📦" 
+                                   FontSize="64"
+                                   Foreground="#c69fd5"
+                                   Margin="0,0,0,20"/>
+
+                        <TextBlock Text="Услуги не найдены"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Попробуйте изменить параметры фильтрации"
+                                   Foreground="#666666"
+                                   TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Border>
     </Grid>

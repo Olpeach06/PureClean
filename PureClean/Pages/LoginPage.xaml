@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="560" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="Авторизация"
       Background="#fdfdc9">
 
@@ -34,8 +34,6 @@
             <StackPanel>
                 <!-- Логотип и заголовок -->
                 <StackPanel HorizontalAlignment="Center" Margin="0,0,0,30">
-                    <!-- Заменим Material Design иконку на TextBlock с символом -->
-                    
                     <TextBlock Text="🧺" 
                                FontSize="64"
                                Foreground="#c69fd5"
@@ -43,7 +41,7 @@
                     <TextBlock Text="PureClean" 
                                FontSize="28" FontWeight="Bold"
                                Foreground="#333333"
-                               Margin="0,10,0,0" Width="134"/>
+                               Margin="0,10,0,0"/>
                     <TextBlock Text="Химчистка премиум-класса"
                                Foreground="#666666"
                                HorizontalAlignment="Center"/>
@@ -64,9 +62,10 @@
                         <TextBox.Style>
                             <Style TargetType="TextBox">
                                 <Setter Property="Foreground" Value="#333333"/>
+                                <Setter Property="BorderBrush" Value="#c69fd5"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="#c69fd5"/>
+                                        <Setter Property="BorderBrush" Value="#a074b3"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -88,9 +87,10 @@
                         <PasswordBox.Style>
                             <Style TargetType="PasswordBox">
                                 <Setter Property="Foreground" Value="#333333"/>
+                                <Setter Property="BorderBrush" Value="#c69fd5"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="#c69fd5"/>
+                                        <Setter Property="BorderBrush" Value="#a074b3"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -100,25 +100,25 @@
 
                 <!-- Кнопка входа -->
                 <Button Content="ВОЙТИ" 
-        Click="LoginButton_Click"
-        Background="#c69fd5"
-        Foreground="White"
-        FontSize="14" FontWeight="Bold"
-        Height="45"
-        BorderThickness="0"
-        Margin="0,0,0,20"
-        Cursor="Hand">
+                        Click="LoginButton_Click"
+                        Background="#c69fd5"
+                        Foreground="White"
+                        FontSize="14" FontWeight="Bold"
+                        Height="45"
+                        BorderThickness="0"
+                        Margin="0,0,0,15"
+                        Cursor="Hand">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="5"
-                                Padding="10">
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="5"
+                                                Padding="10">
                                             <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                                                              VerticalAlignment="Center"/>
                                         </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -134,6 +134,46 @@
                         </Style>
                     </Button.Style>
                 </Button>
+
+                <!-- Кнопка "Войти как гость" -->
+                <Button Content="ВОЙТИ КАК ГОСТЬ" 
+                        Click="GuestLoginButton_Click"
+                        Background="Transparent"
+                        Foreground="#c69fd5"
+                        FontSize="14" FontWeight="Bold"
+                        Height="40"
+                        BorderThickness="2"
+                        BorderBrush="#c69fd5"
+                        Margin="0,0,0,20"
+                        Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="guestBorder"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="5"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                Padding="10">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="guestBorder" Property="Background" Value="#fdfdc9"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Разделитель -->
+                <Border Height="1" Background="#e0e0e0" Margin="0,0,0,20"/>
 
                 <!-- Ссылка на регистрацию -->
                 <TextBlock HorizontalAlignment="Center">

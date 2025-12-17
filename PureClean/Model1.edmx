@@ -4,7 +4,26 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище PureCleanDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище PureCleanDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="LastUpdated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="CartItemID" />
+          </Key>
+          <Property Name="CartItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartID" Type="int" Nullable="false" />
+          <Property Name="ServiceID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="AddedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -160,7 +179,6 @@
           </Key>
           <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="20" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -168,6 +186,7 @@
           <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="RegistrationDate" Type="datetime" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK__MaterialS__Mater__534D60F1">
           <End Role="Materials" Type="Self.Materials" Multiplicity="1" />
@@ -331,7 +350,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cart_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Cart">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceID" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище PureCleanDBModelContainer">
+          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemTypes" EntityType="Self.ItemTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materials" EntityType="Self.Materials" Schema="dbo" store:Type="Tables" />
@@ -399,9 +462,20 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Cart_Clients" Association="Self.FK_Cart_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Cart" Association="Self.FK_CartItems_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Services" Association="Self.FK_CartItems_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PureCleanDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -416,6 +490,7 @@
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__ClientID__5AEE82B9" FromRole="Clients" ToRole="Orders" />
+          <NavigationProperty Name="Cart" Relationship="PureCleanDBModel.FK_Cart_Clients" FromRole="Clients" ToRole="Cart" />
         </EntityType>
         <EntityType Name="ItemTypes">
           <Key>
@@ -556,6 +631,7 @@
           <Property Name="FinalPrice" Type="Decimal" Precision="29" Scale="8" annotation:StoreGeneratedPattern="Computed" />
           <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__Servi__59FA5E80" FromRole="Services" ToRole="OrderItems" />
           <NavigationProperty Name="ServiceCategories" Relationship="Self.FK__Services__Catego__5DCAEF64" FromRole="Services" ToRole="ServiceCategories" />
+          <NavigationProperty Name="CartItems" Relationship="PureCleanDBModel.FK_CartItems_Services" FromRole="Services" ToRole="CartItems" />
         </EntityType>
         <EntityType Name="Suppliers">
           <Key>
@@ -584,7 +660,6 @@
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -592,6 +667,7 @@
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__UserID__5BE2A6F2" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="Roles" Relationship="Self.FK__Users__RoleID__5EBF139D" FromRole="Users" ToRole="Roles" />
         </EntityType>
@@ -825,7 +901,86 @@
             <End Role="ServiceCategories" EntitySet="ServiceCategories" />
             <End Role="Services" EntitySet="Services" />
           </AssociationSet>
+          <EntitySet Name="Cart" EntityType="PureCleanDBModel.Cart" />
+          <EntitySet Name="CartItems" EntityType="PureCleanDBModel.CartItems" />
+          <AssociationSet Name="FK_Cart_Clients" Association="PureCleanDBModel.FK_Cart_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Cart" Association="PureCleanDBModel.FK_CartItems_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItems_Services" Association="PureCleanDBModel.FK_CartItems_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="CartItems" EntitySet="CartItems" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="CartID" />
+          </Key>
+          <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Clients" Relationship="PureCleanDBModel.FK_Cart_Clients" FromRole="Cart" ToRole="Clients" />
+          <NavigationProperty Name="CartItems" Relationship="PureCleanDBModel.FK_CartItems_Cart" FromRole="Cart" ToRole="CartItems" />
+        </EntityType>
+        <EntityType Name="CartItems">
+          <Key>
+            <PropertyRef Name="CartItemID" />
+          </Key>
+          <Property Name="CartItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cart" Relationship="PureCleanDBModel.FK_CartItems_Cart" FromRole="CartItems" ToRole="Cart" />
+          <NavigationProperty Name="Services" Relationship="PureCleanDBModel.FK_CartItems_Services" FromRole="CartItems" ToRole="Services" />
+        </EntityType>
+        <Association Name="FK_Cart_Clients">
+          <End Type="PureCleanDBModel.Clients" Role="Clients" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PureCleanDBModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Cart">
+          <End Type="PureCleanDBModel.Cart" Role="Cart" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PureCleanDBModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItems_Services">
+          <End Type="PureCleanDBModel.Services" Role="Services" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PureCleanDBModel.CartItems" Role="CartItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="ServiceID" />
+            </Principal>
+            <Dependent Role="CartItems">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1000,7 +1155,6 @@
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -1008,6 +1162,28 @@
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cart">
+            <EntityTypeMapping TypeName="PureCleanDBModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItems">
+            <EntityTypeMapping TypeName="PureCleanDBModel.CartItems">
+              <MappingFragment StoreEntitySet="CartItems">
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="CartID" ColumnName="CartID" />
+                <ScalarProperty Name="CartItemID" ColumnName="CartItemID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

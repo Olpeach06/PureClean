@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f4c0ac56a0d84b6b820a82049e394f5f" Name="Diagram1">
+      <Diagram DiagramId="6b70e9e5000947b08fd7841589168b8a" Name="Diagram1">
         <EntityTypeShape EntityType="PureCleanDBModel.Clients" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PureCleanDBModel.ItemTypes" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="PureCleanDBModel.Materials" Width="1.5" PointX="7.5" PointY="11.75" IsExpanded="true" />
@@ -33,6 +33,11 @@
         <AssociationConnector Association="PureCleanDBModel.FK__Reviews__OrderID__5CD6CB2B" ManuallyRouted="false" />
         <AssociationConnector Association="PureCleanDBModel.FK__Users__RoleID__5EBF139D" ManuallyRouted="false" />
         <AssociationConnector Association="PureCleanDBModel.FK__Services__Catego__5DCAEF64" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PureCleanDBModel.Cart" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="PureCleanDBModel.CartItems" Width="1.5" PointX="12.5" PointY="5.625" />
+        <AssociationConnector Association="PureCleanDBModel.FK_Cart_Clients" />
+        <AssociationConnector Association="PureCleanDBModel.FK_CartItems_Cart" />
+        <AssociationConnector Association="PureCleanDBModel.FK_CartItems_Services" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

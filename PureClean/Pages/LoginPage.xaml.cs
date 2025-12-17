@@ -46,7 +46,7 @@ namespace PureClean.Pages
                     // Здесь для простоты ищем по логину и паролю напрямую
                     var user = context.Users.FirstOrDefault(x =>
                         (x.Login == login || x.Email == login || x.Phone == login) &&
-                        x.PasswordHash == password); // В вашей БД уже есть хэшированные пароли
+                        x.Password == password); // В вашей БД уже есть хэшированные пароли
 
                     if (user == null)
                     {
@@ -68,6 +68,12 @@ namespace PureClean.Pages
                     CurrentUser.FullName = $"{user.FirstName} {user.LastName}";
                     CurrentUser.RoleID = user.RoleID;
                     CurrentUser.LoginTime = DateTime.Now;
+
+                    Session.UserID = user.UserID;
+                    Session.Login = user.Login; // ИЛИ user.Email - что есть в БД для поиска клиента
+                    Session.FullName = $"{user.FirstName} {user.LastName}";
+                    Session.RoleID = user.RoleID;
+                    Session.LoginTime = DateTime.Now;
 
                     // Определение роли и перенаправление
                     switch (user.RoleID)
@@ -120,6 +126,11 @@ namespace PureClean.Pages
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new RegistrationPage());
+        }
+
+        private void GuestLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new CatalogPage());
         }
     }
 }

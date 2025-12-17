@@ -18,6 +18,7 @@ namespace PureClean
         public Services()
         {
             this.OrderItems = new HashSet<OrderItems>();
+            this.CartItems = new HashSet<CartItems>();
         }
     
         public int ServiceID { get; set; }
@@ -34,5 +35,7 @@ namespace PureClean
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItems> OrderItems { get; set; }
         public virtual ServiceCategories ServiceCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CartItems> CartItems { get; set; }
     }
 }

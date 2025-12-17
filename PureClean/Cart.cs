@@ -12,27 +12,21 @@ namespace PureClean
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class Cart
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public Cart()
         {
-            this.Orders = new HashSet<Orders>();
+            this.CartItems = new HashSet<CartItems>();
         }
     
-        public int UserID { get; set; }
-        public string Login { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int RoleID { get; set; }
-        public Nullable<System.DateTime> RegistrationDate { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public string Password { get; set; }
+        public int CartID { get; set; }
+        public int ClientID { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
     
+        public virtual Clients Clients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders> Orders { get; set; }
-        public virtual Roles Roles { get; set; }
+        public virtual ICollection<CartItems> CartItems { get; set; }
     }
 }
