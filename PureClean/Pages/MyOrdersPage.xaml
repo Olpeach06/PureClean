@@ -4,121 +4,321 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="700" d:DesignWidth="1000"
       Title="Мои заказы" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
     <Grid>
-        <!-- Основной контент -->
+        <!-- Фоновый градиент -->
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#fdfdc9" Offset="0"/>
+                    <GradientStop Color="#f8f7e6" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- Основной контейнер -->
         <Border Background="White"
                 Margin="20"
-                Padding="30">
-
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="15"/>
-                </Style>
-            </Border.Style>
+                CornerRadius="15">
 
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity="0.2" 
-                                  ShadowDepth="3" Color="#000000"/>
+                <DropShadowEffect BlurRadius="20" Opacity="0.15" 
+                                  ShadowDepth="5" Color="#333333"/>
             </Border.Effect>
 
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Заголовок и фильтры -->
-                <StackPanel Grid.Row="0" 
-                            Margin="0,0,0,30">
+                <!-- Заголовок -->
+                <Border Grid.Row="0"
+                        Background="#f9f9f9"
+                        CornerRadius="15,15,0,0"
+                        Padding="20">
 
-                    <StackPanel Orientation="Horizontal" 
-                                Margin="0,0,0,20">
-                        <TextBlock Text="📋" 
-                                   FontSize="32"
-                                   Foreground="#c69fd5"
-                                   Margin="0,0,15,0"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="История заказов"
-                                   FontSize="24" 
-                                   FontWeight="Bold"
-                                   Foreground="#333333"/>
-                    </StackPanel>
-
-                    <!-- Фильтры -->
-                    <WrapPanel>
-                        <ComboBox Width="150" 
-                                  Margin="0,0,10,10">
-
-                            <ComboBox.Style>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Padding" Value="5"/>
-                                </Style>
-                            </ComboBox.Style>
-
-                            <ComboBoxItem Content="Все статусы"/>
-                            <ComboBoxItem Content="Принят"/>
-                            <ComboBoxItem Content="В работе"/>
-                            <ComboBoxItem Content="Готов"/>
-                            <ComboBoxItem Content="Выдан"/>
-                        </ComboBox>
-
-                        <DatePicker Width="150" 
-                                    Margin="0,0,10,10"/>
-
-                        <DatePicker Width="150" 
-                                    Margin="0,0,10,10"/>
-
-                        <Button Content="ПРИМЕНИТЬ"
+                        <!-- Кнопка "Назад" -->
+                        <Button Grid.Column="0"
+                                x:Name="btnBack"
+                                Content="← Назад"
                                 Background="Transparent"
                                 Foreground="#666666"
-                                BorderThickness="1"
-                                BorderBrush="#666666"
+                                BorderThickness="0"
                                 Height="35"
                                 FontSize="13"
-                                Margin="0,0,10,10"
-                                Cursor="Hand">
+                                Padding="0"
+                                Cursor="Hand"
+                                Click="btnBack_Click"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Margin="0,0,20,0">
 
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border"
+                                            CornerRadius="5"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                            <Setter Property="Foreground" Value="#c69fd5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
-                    </WrapPanel>
-                </StackPanel>
+
+                        <!-- Иконка и заголовок -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+
+                            <Border Width="40" 
+                                    Height="40" 
+                                    Background="#c69fd5"
+                                    CornerRadius="20"
+                                    Margin="0,0,10,0">
+
+                                <TextBlock Text="📋"
+                                           FontSize="20"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel>
+                                <TextBlock Text="Мои заказы"
+                                           FontSize="22" 
+                                           FontWeight="Bold"
+                                           Foreground="#333333"/>
+
+                                <TextBlock x:Name="txtOrdersCount"
+                                           Text="0 заказов"
+                                           FontSize="13"
+                                           Foreground="#666666"
+                                           Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Кнопка обновления -->
+                        <Button Grid.Column="2"
+                                Content="Обновить"
+                                Background="Transparent"
+                                Foreground="#c69fd5"
+                                BorderThickness="1"
+                                BorderBrush="#c69fd5"
+                                Height="35"
+                                FontSize="13"
+                                Padding="10,0"
+                                Cursor="Hand"
+                                Click="RefreshButton_Click">
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border"
+                                            CornerRadius="17"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#fdfdc9"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Фильтры -->
+                <Border Grid.Row="1"
+                        Background="White"
+                        Padding="20,15"
+                        Margin="0,0,0,10">
+
+                    <StackPanel>
+                        <TextBlock Text="Фильтры заказов"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,10"/>
+
+                        <WrapPanel>
+                            <!-- Фильтр по статусу -->
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,15,10">
+                                <TextBlock Text="Статус:"
+                                           FontSize="13"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,5,0"/>
+
+                                <ComboBox x:Name="cmbStatusFilter"
+                                          Width="140"
+                                          SelectionChanged="StatusFilter_Changed"
+                                          BorderBrush="#c69fd5"
+                                          BorderThickness="1"
+                                          Padding="5">
+                                    <ComboBoxItem Content="Все статусы" Tag="all"/>
+                                    <ComboBoxItem Content="Принят" Tag="Принят"/>
+                                    <ComboBoxItem Content="В работе" Tag="В работе"/>
+                                    <ComboBoxItem Content="Готов" Tag="Готов"/>
+                                    <ComboBoxItem Content="Выдан" Tag="Выдан"/>
+                                    <ComboBoxItem Content="Отменен" Tag="Отменен"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Кнопки управления -->
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0,0,0,10">
+
+                                <Button x:Name="btnApplyFilters"
+                                        Content="Применить"
+                                        Background="#c69fd5"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Height="30"
+                                        FontSize="12"
+                                        Padding="15,0"
+                                        Margin="0,0,10,0"
+                                        Cursor="Hand"
+                                        Click="ApplyFilters_Click" Width="88">
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                                <Button x:Name="btnResetFilters"
+                                        Content="Сбросить"
+                                        Background="Transparent"
+                                        Foreground="#666666"
+                                        BorderThickness="1"
+                                        BorderBrush="#666666"
+                                        Height="30"
+                                        FontSize="12"
+                                        Padding="15,0"
+                                        Cursor="Hand"
+                                        Click="ResetFilters_Click" Width="72">
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
 
                 <!-- Список заказов -->
-                <ScrollViewer Grid.Row="1" 
-                              VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Grid.Row="2"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="20">
 
                     <StackPanel x:Name="ordersPanel">
                         <!-- Заказы будут добавляться динамически -->
                     </StackPanel>
                 </ScrollViewer>
+
+                <!-- Нет заказов -->
+                <Border Grid.Row="2"
+                        x:Name="noOrdersPanel"
+                        Background="White"
+                        CornerRadius="10"
+                        Padding="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Visibility="Collapsed">
+
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="📋"
+                                   FontSize="60"
+                                   Foreground="#c69fd5"
+                                   Opacity="0.3"
+                                   Margin="0,0,0,20"/>
+
+                        <TextBlock Text="Заказы не найдены"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,10"/>
+
+                        <TextBlock Text="У вас пока нет заказов"
+                                   Foreground="#666666"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,25"/>
+
+                        <Button Content="Вернуться в каталог"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                Width="180"
+                                Height="40"
+                                FontSize="13"
+                                Cursor="Hand"
+                                Click="GoToCatalog_Click">
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border"
+                                            CornerRadius="8"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Border>
     </Grid>

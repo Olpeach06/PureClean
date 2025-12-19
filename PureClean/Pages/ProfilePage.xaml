@@ -4,595 +4,447 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="700" d:DesignWidth="1000"
       Title="Мой профиль" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
     <Grid>
-        <!-- Боковая панель -->
-        <Border Width="250" Background="White" Margin="0,0,750,0">
-
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="0,15,15,0"/>
-                </Style>
-            </Border.Style>
-
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity="0.2" 
-                                  ShadowDepth="3" Color="#000000"/>
-            </Border.Effect>
-
-            <StackPanel Margin="20">
-                <!-- Аватар -->
-                <Border Width="100" Height="100" 
-                        Background="#c69fd5" Opacity="0.2"
-                        HorizontalAlignment="Center"
-                        Margin="0,0,0,20">
-
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="50"/>
-                        </Style>
-                    </Border.Style>
-
-                    <TextBlock Text="👤" 
-                               FontSize="40"
-                               Foreground="#c69fd5"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                </Border>
-
-                <TextBlock x:Name="txtUserName"
-                           Text="Иван Иванов"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,30"/>
-
-                <!-- Меню профиля -->
-                <Button x:Name="btnEditProfile"
-                        Click="EditProfile_Click"
-                        Margin="0,0,0,10"
-                        Cursor="Hand">
-
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="Padding" Value="10,8"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="border"
-                                                CornerRadius="5"
-                                                Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Left"
-                                                              VerticalAlignment="Center"
-                                                              Margin="10,0"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="#fdfdc9"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="✏️" Margin="0,0,10,0"/>
-                        <TextBlock Text="Редактировать профиль"/>
-                    </StackPanel>
-                </Button>
-
-                <Button x:Name="btnChangePassword"
-                        Click="ChangePassword_Click"
-                        Margin="0,0,0,10"
-                        Cursor="Hand">
-
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="Padding" Value="10,8"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="border"
-                                                CornerRadius="5"
-                                                Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Left"
-                                                              VerticalAlignment="Center"
-                                                              Margin="10,0"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="#fdfdc9"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🔒" Margin="0,0,10,0"/>
-                        <TextBlock Text="Сменить пароль"/>
-                    </StackPanel>
-                </Button>
-
-                <Button x:Name="btnLogout"
-                        Click="Logout_Click"
-                        Margin="0,20,0,0"
-                        Cursor="Hand">
-
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="Padding" Value="10,8"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="Button">
-                                        <Border x:Name="border"
-                                                CornerRadius="5"
-                                                Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Left"
-                                                              VerticalAlignment="Center"
-                                                              Margin="10,0"/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter TargetName="border" Property="Background" Value="#ffe0e0"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🚪" Margin="0,0,10,0"/>
-                        <TextBlock Text="Выйти" Foreground="#FF4444"/>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-        </Border>
-
-        <!-- Основной контент -->
+        <!-- Основной контейнер -->
         <Border Background="White"
-                Margin="270,20,20,20"
-                Padding="30">
-
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="15"/>
-                </Style>
-            </Border.Style>
+                Margin="40,20"
+                CornerRadius="15">
 
             <Border.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity="0.2" 
-                                  ShadowDepth="3" Color="#000000"/>
+                <DropShadowEffect BlurRadius="20" Opacity="0.15" 
+                                  ShadowDepth="5" Color="#333333"/>
             </Border.Effect>
 
-            <ScrollViewer>
-                <StackPanel>
-                    <!-- Заголовок -->
-                    <TextBlock Text="Мой профиль"
-                               FontSize="24" FontWeight="Bold"
-                               Foreground="#333333"
-                               Margin="0,0,0,30"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                    <!-- Информация в карточках -->
-                    <Grid Margin="0,0,0,20">
+                <!-- Заголовок -->
+                <Border Grid.Row="0"
+                        Background="#f9f9f9"
+                        CornerRadius="15,15,0,0"
+                        Padding="30,20">
+
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Левая карточка -->
-                        <Border Background="#fdfdc9" 
-                                Padding="20"
-                                Grid.Column="0">
+                        <!-- Кнопка Назад -->
+                        <Button Grid.Column="0"
+                                x:Name="btnBack"
+                                Content="← Назад"
+                                Background="Transparent"
+                                Foreground="#666666"
+                                BorderThickness="0"
+                                Height="35"
+                                FontSize="13"
+                                Padding="0"
+                                Cursor="Hand"
+                                Click="btnBack_Click"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Margin="0,0,20,0">
 
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border"
+                                            CornerRadius="5"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                            <Setter Property="Foreground" Value="#c69fd5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <!-- Иконка и заголовок -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left">
+
+                            <Border Width="50" 
+                                    Height="50" 
+                                    Background="#c69fd5"
+                                    CornerRadius="25"
+                                    Margin="0,0,15,0">
+
+                                <TextBlock Text="👤"
+                                           FontSize="24"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
 
                             <StackPanel>
-                                <TextBlock Text="Личная информация"
-                                           FontWeight="SemiBold"
-                                           FontSize="16"
-                                           Margin="0,0,0,15"/>
+                                <TextBlock Text="Мой профиль"
+                                           FontSize="24" 
+                                           FontWeight="Bold"
+                                           Foreground="#333333"/>
 
-                                <!-- ФИО -->
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                    <TextBlock Text="👤" 
-                                               Foreground="#c69fd5"
-                                               Margin="0,0,10,0"/>
-                                    <StackPanel>
-                                        <TextBlock x:Name="txtFullName"
-                                                   Text="Иван Иванов"
-                                                   FontWeight="Medium"
-                                                   FontSize="14"/>
+                                <TextBlock x:Name="txtUserName"
+                                           Text="Гость"
+                                           FontSize="14"
+                                           Foreground="#666666"
+                                           Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Контент -->
+                <ScrollViewer Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              Padding="30">
+
+                    <StackPanel>
+                        <!-- Карточки информации -->
+                        <Grid Margin="0,0,0,30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Левая карточка -->
+                            <Border Background="#fdfdc9" 
+                                    CornerRadius="10"
+                                    Padding="20"
+                                    Grid.Column="0">
+
+                                <StackPanel>
+                                    <TextBlock Text="Личная информация"
+                                               FontWeight="SemiBold"
+                                               FontSize="16"
+                                               Margin="0,0,0,20"/>
+
+                                    <!-- ФИО -->
+                                    <StackPanel Margin="0,0,0,15">
                                         <TextBlock Text="ФИО" 
                                                    Foreground="#666666"
                                                    FontSize="12"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Email -->
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                    <TextBlock Text="📧" 
-                                               Foreground="#c69fd5"
-                                               Margin="0,0,10,0"/>
-                                    <StackPanel>
-                                        <TextBlock x:Name="txtEmail"
-                                                   Text="user@example.com"
+                                        <TextBlock x:Name="txtFullName"
+                                                   Text="Не указано"
                                                    FontWeight="Medium"
-                                                   FontSize="14"/>
+                                                   FontSize="15"/>
+                                    </StackPanel>
+
+                                    <!-- Email -->
+                                    <StackPanel Margin="0,0,0,15">
                                         <TextBlock Text="Email" 
                                                    Foreground="#666666"
                                                    FontSize="12"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Телефон -->
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="📞" 
-                                               Foreground="#c69fd5"
-                                               Margin="0,0,10,0"/>
-                                    <StackPanel>
-                                        <TextBlock x:Name="txtPhone"
-                                                   Text="+7 (999) 123-45-67"
+                                        <TextBlock x:Name="txtEmail"
+                                                   Text="Не указан"
                                                    FontWeight="Medium"
-                                                   FontSize="14"/>
+                                                   FontSize="15"/>
+                                    </StackPanel>
+
+                                    <!-- Телефон -->
+                                    <StackPanel>
                                         <TextBlock Text="Телефон" 
                                                    Foreground="#666666"
                                                    FontSize="12"/>
+                                        <TextBlock x:Name="txtPhone"
+                                                   Text="Не указан"
+                                                   FontWeight="Medium"
+                                                   FontSize="15"/>
                                     </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
-                        </Border>
+                            </Border>
 
-                        <!-- Правая карточка -->
-                        <Border Background="#fdfdc9" 
-                                Padding="20"
-                                Grid.Column="2">
+                            <!-- Правая карточка -->
+                            <Border Background="#fdfdc9" 
+                                    CornerRadius="10"
+                                    Padding="20"
+                                    Grid.Column="2">
 
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                                <StackPanel>
+                                    <TextBlock Text="Информация"
+                                               FontWeight="SemiBold"
+                                               FontSize="16"
+                                               Margin="0,0,0,20"/>
 
-                            <StackPanel>
-                                <TextBlock Text="Статистика"
-                                           FontWeight="SemiBold"
-                                           FontSize="16"
-                                           Margin="0,0,0,15"/>
-
-                                <!-- Дата регистрации -->
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                    <TextBlock Text="📅" 
-                                               Foreground="#c69fd5"
-                                               Margin="0,0,10,0"/>
-                                    <StackPanel>
-                                        <TextBlock x:Name="txtRegistrationDate"
-                                                   Text="10.12.2024"
-                                                   FontWeight="Medium"
-                                                   FontSize="14"/>
+                                    <!-- Дата регистрации -->
+                                    <StackPanel Margin="0,0,0,15">
                                         <TextBlock Text="Дата регистрации" 
                                                    Foreground="#666666"
                                                    FontSize="12"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Количество заказов -->
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                    <TextBlock Text="📋" 
-                                               Foreground="#c69fd5"
-                                               Margin="0,0,10,0"/>
-                                    <StackPanel>
-                                        <TextBlock x:Name="txtOrdersCount"
-                                                   Text="5"
+                                        <TextBlock x:Name="txtRegistrationDate"
+                                                   Text="Не указана"
                                                    FontWeight="Medium"
-                                                   FontSize="14"/>
-                                        <TextBlock Text="Заказов выполнено" 
+                                                   FontSize="15"/>
+                                    </StackPanel>
+
+                                    <!-- Роль -->
+                                    <StackPanel Margin="0,0,0,15">
+                                        <TextBlock Text="Роль" 
                                                    Foreground="#666666"
                                                    FontSize="12"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <!-- Статус -->
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="⭐" 
-                                               Foreground="#c69fd5"
-                                               Margin="0,0,10,0"/>
-                                    <StackPanel>
-                                        <TextBlock x:Name="txtStatus"
-                                                   Text="Постоянный клиент"
+                                        <TextBlock x:Name="txtRole"
+                                                   Text="Гость"
                                                    FontWeight="Medium"
-                                                   FontSize="14"/>
+                                                   FontSize="15"/>
+                                    </StackPanel>
+
+                                    <!-- Статус -->
+                                    <StackPanel>
                                         <TextBlock Text="Статус" 
                                                    Foreground="#666666"
                                                    FontSize="12"/>
+                                        <TextBlock x:Name="txtStatus"
+                                                   Text="Не активен"
+                                                   FontWeight="Medium"
+                                                   FontSize="15"/>
                                     </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Форма редактирования профиля -->
+                        <Border x:Name="editForm"
+                                Background="#fdfdc9"
+                                CornerRadius="10"
+                                Padding="25"
+                                Margin="0,0,0,30"
+                                Visibility="Collapsed">
+
+                            <StackPanel>
+                                <TextBlock Text="Редактирование профиля"
+                                           FontWeight="SemiBold"
+                                           FontSize="18"
+                                           Margin="0,0,0,20"/>
+
+                                <!-- Поля -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <StackPanel Margin="0,0,0,15">
+                                            <TextBlock Text="Имя"
+                                                       FontSize="14"
+                                                       Margin="0,0,0,5"/>
+                                            <TextBox x:Name="editFirstName"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,15">
+                                            <TextBlock Text="Email"
+                                                       FontSize="14"
+                                                       Margin="0,0,0,5"/>
+                                            <TextBox x:Name="editEmail"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2">
+                                        <StackPanel Margin="0,0,0,15">
+                                            <TextBlock Text="Фамилия"
+                                                       FontSize="14"
+                                                       Margin="0,0,0,5"/>
+                                            <TextBox x:Name="editLastName"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,15">
+                                            <TextBlock Text="Телефон"
+                                                       FontSize="14"
+                                                       Margin="0,0,0,5"/>
+                                            <TextBox x:Name="editPhone"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Кнопки -->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0,25,0,0">
+
+                                    <Button x:Name="btnCancelEdit"
+                                            Content="Отмена"
+                                            Click="btnCancelEdit_Click"
+                                            Background="Transparent"
+                                            Foreground="#666666"
+                                            BorderThickness="1"
+                                            BorderBrush="#666666"
+                                            Width="120" 
+                                            Height="40"
+                                            FontSize="14"
+                                            Margin="0,0,15,0"
+                                            Cursor="Hand"/>
+
+                                    <Button x:Name="btnSaveEdit"
+                                            Content="Сохранить"
+                                            Click="btnSaveEdit_Click"
+                                            Background="#c69fd5"
+                                            Foreground="White"
+                                            Width="120" 
+                                            Height="40"
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Cursor="Hand"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
-                    </Grid>
 
-                    <!-- Форма редактирования -->
-                    <Border x:Name="editForm"
-                            Background="#fdfdc9"
-                            Padding="20"
-                            Margin="0,0,0,20"
-                            Visibility="Collapsed">
+                        <!-- Форма смены пароля -->
+                        <Border x:Name="changePasswordForm"
+                                Background="#fdfdc9"
+                                CornerRadius="10"
+                                Padding="25"
+                                Margin="0,0,0,30"
+                                Visibility="Collapsed">
 
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Border.Style>
+                            <StackPanel>
+                                <TextBlock Text="Смена пароля"
+                                           FontWeight="SemiBold"
+                                           FontSize="18"
+                                           Margin="0,0,0,20"/>
 
-                        <StackPanel>
-                            <TextBlock Text="Редактирование профиля"
-                                       FontWeight="SemiBold"
-                                       FontSize="16"
-                                       Margin="0,0,0,15"/>
-
-                            <!-- Поля редактирования -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Левая колонка -->
-                                <StackPanel Grid.Column="0">
-                                    <StackPanel Margin="0,0,0,10">
-                                        <Label Content="Имя"
-                                               Foreground="#333333"
-                                               FontSize="13"/>
-                                        <TextBox x:Name="editFirstName"
-                                                 Padding="8"
-                                                 FontSize="14">
-                                            <TextBox.Style>
-                                                <Style TargetType="TextBox">
-                                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                    <Setter Property="BorderThickness" Value="1"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="TextBox">
-                                                                <Border CornerRadius="5" 
-                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                        Background="{TemplateBinding Background}">
-                                                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </TextBox.Style>
-                                        </TextBox>
+                                <!-- Поля для смены пароля -->
+                                <StackPanel>
+                                    <StackPanel Margin="0,0,0,15">
+                                        <TextBlock Text="Текущий пароль"
+                                                   FontSize="14"
+                                                   Margin="0,0,0,5"/>
+                                        <PasswordBox x:Name="currentPasswordBox"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
                                     </StackPanel>
 
-                                    <StackPanel Margin="0,0,0,10">
-                                        <Label Content="Email"
-                                               Foreground="#333333"
-                                               FontSize="13"/>
-                                        <TextBox x:Name="editEmail"
-                                                 Padding="8"
-                                                 FontSize="14">
-                                            <TextBox.Style>
-                                                <Style TargetType="TextBox">
-                                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                    <Setter Property="BorderThickness" Value="1"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="TextBox">
-                                                                <Border CornerRadius="5" 
-                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                        Background="{TemplateBinding Background}">
-                                                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </TextBox.Style>
-                                        </TextBox>
+                                    <StackPanel Margin="0,0,0,15">
+                                        <TextBlock Text="Новый пароль"
+                                                   FontSize="14"
+                                                   Margin="0,0,0,5"/>
+                                        <PasswordBox x:Name="newPasswordBox"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,0,0,15">
+                                        <TextBlock Text="Повторите новый пароль"
+                                                   FontSize="14"
+                                                   Margin="0,0,0,5"/>
+                                        <PasswordBox x:Name="confirmPasswordBox"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
                                     </StackPanel>
                                 </StackPanel>
 
-                                <!-- Правая колонка -->
-                                <StackPanel Grid.Column="2">
-                                    <StackPanel Margin="0,0,0,10">
-                                        <Label Content="Фамилия"
-                                               Foreground="#333333"
-                                               FontSize="13"/>
-                                        <TextBox x:Name="editLastName"
-                                                 Padding="8"
-                                                 FontSize="14">
-                                            <TextBox.Style>
-                                                <Style TargetType="TextBox">
-                                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                    <Setter Property="BorderThickness" Value="1"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="TextBox">
-                                                                <Border CornerRadius="5" 
-                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                        Background="{TemplateBinding Background}">
-                                                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </TextBox.Style>
-                                        </TextBox>
-                                    </StackPanel>
+                                <!-- Кнопки для смены пароля -->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            Margin="0,25,0,0">
 
-                                    <StackPanel Margin="0,0,0,10">
-                                        <Label Content="Телефон"
-                                               Foreground="#333333"
-                                               FontSize="13"/>
-                                        <TextBox x:Name="editPhone"
-                                                 Padding="8"
-                                                 FontSize="14">
-                                            <TextBox.Style>
-                                                <Style TargetType="TextBox">
-                                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                    <Setter Property="BorderThickness" Value="1"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="TextBox">
-                                                                <Border CornerRadius="5" 
-                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                        Background="{TemplateBinding Background}">
-                                                                    <ScrollViewer x:Name="PART_ContentHost"/>
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </TextBox.Style>
-                                        </TextBox>
-                                    </StackPanel>
+                                    <Button x:Name="btnCancelPassword"
+                                            Content="Отмена"
+                                            Click="btnCancelPassword_Click"
+                                            Background="Transparent"
+                                            Foreground="#666666"
+                                            BorderThickness="1"
+                                            BorderBrush="#666666"
+                                            Width="120" 
+                                            Height="40"
+                                            FontSize="14"
+                                            Margin="0,0,15,0"
+                                            Cursor="Hand"/>
+
+                                    <Button x:Name="btnSavePassword"
+                                            Content="Изменить пароль"
+                                            Click="btnSavePassword_Click"
+                                            Background="#c69fd5"
+                                            Foreground="White"
+                                            Width="150" 
+                                            Height="40"
+                                            FontSize="14"
+                                            FontWeight="SemiBold"
+                                            Cursor="Hand"/>
                                 </StackPanel>
-                            </Grid>
-
-                            <!-- Кнопки редактирования -->
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Right"
-                                        Margin="0,15,0,0">
-
-                                <Button x:Name="btnCancelEdit"
-                                        Content="Отмена"
-                                        Click="CancelEdit_Click"
-                                        Background="Transparent"
-                                        Foreground="#666666"
-                                        BorderThickness="1"
-                                        BorderBrush="#666666"
-                                        Width="100" Height="35"
-                                        Margin="0,0,10,0"
-                                        Cursor="Hand">
-
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border x:Name="border"
-                                                                CornerRadius="5"
-                                                                Background="{TemplateBinding Background}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}">
-                                                            <ContentPresenter HorizontalAlignment="Center"
-                                                                              VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-
-                                <Button x:Name="btnSaveEdit"
-                                        Content="Сохранить"
-                                        Click="SaveEdit_Click"
-                                        Background="#c69fd5"
-                                        Foreground="White"
-                                        Width="100" Height="35"
-                                        Cursor="Hand">
-
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="Button">
-                                                        <Border x:Name="border"
-                                                                CornerRadius="5"
-                                                                Background="{TemplateBinding Background}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}">
-                                                            <ContentPresenter HorizontalAlignment="Center"
-                                                                              VerticalAlignment="Center"/>
-                                                        </Border>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Setter TargetName="border" Property="Background" Value="#b289c7"/>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
                             </StackPanel>
+                        </Border>
+
+                        <!-- Кнопки управления -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+
+                            <Button x:Name="btnChangePassword"
+                                    Content="СМЕНИТЬ ПАРОЛЬ"
+                                    Click="btnChangePassword_Click"
+                                    Background="#4CAF50"
+                                    Foreground="White"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Width="180" 
+                                    Height="45"
+                                    Margin="0,0,15,0"
+                                    Cursor="Hand"
+                                    Visibility="Visible"/>
+
+                            <Button x:Name="btnShowEdit"
+                                    Content="РЕДАКТИРОВАТЬ ПРОФИЛЬ"
+                                    Click="btnShowEdit_Click"
+                                    Background="#c69fd5"
+                                    Foreground="White"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Width="250" 
+                                    Height="45"
+                                    Margin="0,0,15,0"
+                                    Cursor="Hand"/>
+
+                            <Button x:Name="btnLogout"
+                                    Content="ВЫЙТИ"
+                                    Click="btnLogout_Click"
+                                    Background="Transparent"
+                                    Foreground="#FF4444"
+                                    BorderThickness="1"
+                                    BorderBrush="#FF4444"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Width="120" 
+                                    Height="45"
+                                    Cursor="Hand"/>
                         </StackPanel>
-                    </Border>
-
-                    <!-- Кнопка открытия формы редактирования -->
-                    <Button x:Name="btnShowEdit"
-                            Content="РЕДАКТИРОВАТЬ ПРОФИЛЬ"
-                            Click="ShowEditForm_Click"
-                            Background="#c69fd5"
-                            Foreground="White"
-                            FontWeight="Bold"
-                            Width="250" Height="40"
-                            HorizontalAlignment="Right"
-                            Cursor="Hand">
-
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border x:Name="border"
-                                                    CornerRadius="5"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="border" Property="Background" Value="#b289c7"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
-            </ScrollViewer>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
         </Border>
     </Grid>
 </Page>

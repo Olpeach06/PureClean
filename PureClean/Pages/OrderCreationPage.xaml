@@ -6,315 +6,475 @@
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1000"
       Title="Оформление заказа" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
-    <Grid>
-        <!-- Мастер заказа -->
-        <Border Background="White"
-                Margin="20"
-                Padding="30">
+    <!-- Добавляем ScrollViewer для всей страницы -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled"
+                  Padding="0"
+                  Margin="0">
 
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="15"/>
-                </Style>
-            </Border.Style>
+        <Grid>
+            <Border Background="White"
+                    Margin="20"
+                    Padding="30"
+                    CornerRadius="15">
 
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity="0.2" 
-                                  ShadowDepth="3" Color="#000000"/>
-            </Border.Effect>
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" Opacity="0.2" 
+                                      ShadowDepth="3" Color="#000000"/>
+                </Border.Effect>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Шаги -->
-                <Border Grid.Row="0" 
-                        Background="#fdfdc9"
-                        Padding="20"
-                        Margin="0,0,0,30">
+                    <!-- Шаги -->
+                    <Border Grid.Row="0" 
+                            Background="#fdfdc9"
+                            Padding="20"
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Center">
 
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Border.Style>
+                            <!-- Шаг 1 -->
+                            <Border Width="40" Height="40"
+                                    Background="#c69fd5"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="20">
+                                <TextBlock Text="1" 
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
 
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center">
-
-                        <!-- Шаг 1 -->
-                        <Border Width="40" Height="40"
-                                Background="#c69fd5"
-                                VerticalAlignment="Center">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="20"/>
-                                </Style>
-                            </Border.Style>
-
-                            <TextBlock Text="1" 
-                                       Foreground="White"
+                            <TextBlock Text="Данные клиента"
                                        FontWeight="Bold"
-                                       HorizontalAlignment="Center"
+                                       Margin="10,0,30,0"
                                        VerticalAlignment="Center"/>
-                        </Border>
 
-                        <TextBlock Text="Данные клиента"
-                                   FontWeight="Bold"
-                                   Margin="10,0,30,0"
-                                   VerticalAlignment="Center"/>
+                            <Rectangle Width="50" Height="2"
+                                       Fill="#c69fd5" 
+                                       Opacity="0.3"
+                                       VerticalAlignment="Center"/>
 
-                        <Rectangle Width="50" Height="2"
-                                   Fill="#c69fd5" 
-                                   Opacity="0.3"
-                                   VerticalAlignment="Center"/>
+                            <!-- Шаг 2 -->
+                            <Border x:Name="step2Circle" Width="40" Height="40"
+                                    Background="#c69fd5"
+                                    Opacity="0.5"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="20">
+                                <TextBlock Text="2" 
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
 
-                        <!-- Шаг 2 -->
-                        <Border Width="40" Height="40"
-                                Background="#c69fd5"
-                                Opacity="0.5"
-                                VerticalAlignment="Center">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="20"/>
-                                </Style>
-                            </Border.Style>
-
-                            <TextBlock Text="2" 
-                                       Foreground="White"
+                            <TextBlock x:Name="step2Text" Text="Выбор услуг"
                                        FontWeight="Bold"
-                                       HorizontalAlignment="Center"
+                                       Margin="10,0,30,0"
                                        VerticalAlignment="Center"/>
-                        </Border>
 
-                        <TextBlock Text="Выбор услуг"
-                                   FontWeight="Bold"
-                                   Margin="10,0,30,0"
-                                   VerticalAlignment="Center"/>
+                            <Rectangle Width="50" Height="2"
+                                       Fill="#c69fd5" 
+                                       Opacity="0.3"
+                                       VerticalAlignment="Center"/>
 
-                        <Rectangle Width="50" Height="2"
-                                   Fill="#c69fd5" 
-                                   Opacity="0.3"
-                                   VerticalAlignment="Center"/>
+                            <!-- Шаг 3 -->
+                            <Border x:Name="step3Circle" Width="40" Height="40"
+                                    Background="#c69fd5"
+                                    Opacity="0.3"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="20">
+                                <TextBlock Text="3" 
+                                           Foreground="White"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
 
-                        <!-- Шаг 3 -->
-                        <Border Width="40" Height="40"
-                                Background="#c69fd5"
-                                Opacity="0.3"
-                                VerticalAlignment="Center">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="20"/>
-                                </Style>
-                            </Border.Style>
-
-                            <TextBlock Text="3" 
-                                       Foreground="White"
+                            <TextBlock x:Name="step3Text" Text="Подтверждение"
                                        FontWeight="Bold"
-                                       HorizontalAlignment="Center"
+                                       Margin="10,0,0,0"
                                        VerticalAlignment="Center"/>
-                        </Border>
+                        </StackPanel>
+                    </Border>
 
-                        <TextBlock Text="Подтверждение"
-                                   FontWeight="Bold"
-                                   Margin="10,0,0,0"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Border>
-
-                <!-- Контент шага -->
-                <Border Grid.Row="1" 
-                        Background="#fdfdc9"
-                        Padding="20"
-                        Margin="0,0,0,30">
-
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Border.Style>
-
-                    <!-- Данные клиента -->
-                    <StackPanel x:Name="step1Panel">
-                        <TextBlock Text="Данные клиента"
-                                   FontSize="18" 
-                                   FontWeight="Bold"
-                                   Margin="0,0,0,20"/>
+                    <!-- Контент шага -->
+                    <Border Grid.Row="1" 
+                            Background="#fdfdc9"
+                            Padding="20"
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
 
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <!-- Шаг 1: Данные клиента -->
+                            <StackPanel x:Name="step1Panel" Visibility="Visible">
+                                <TextBlock Text="Данные клиента"
+                                           FontSize="18" 
+                                           FontWeight="Bold"
+                                           Margin="0,0,0,20"/>
 
-                            <!-- Левая колонка -->
-                            <StackPanel Grid.Column="0">
-                                <StackPanel Margin="0,0,0,15">
-                                    <Label Content="Имя*"
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Левая колонка -->
+                                    <StackPanel Grid.Column="0">
+                                        <StackPanel Margin="0,0,0,15">
+                                            <Label Content="Имя*"
+                                                   Foreground="#333333"
+                                                   FontSize="13"/>
+                                            <TextBox x:Name="txtFirstName"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,15">
+                                            <Label Content="Телефон*"
+                                                   Foreground="#333333"
+                                                   FontSize="13"/>
+                                            <TextBox x:Name="txtPhone"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!-- Правая колонка -->
+                                    <StackPanel Grid.Column="2">
+                                        <StackPanel Margin="0,0,0,15">
+                                            <Label Content="Фамилия*"
+                                                   Foreground="#333333"
+                                                   FontSize="13"/>
+                                            <TextBox x:Name="txtLastName"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,0,0,15">
+                                            <Label Content="Email"
+                                                   Foreground="#333333"
+                                                   FontSize="13"/>
+                                            <TextBox x:Name="txtEmail"
+                                                     Padding="10"
+                                                     FontSize="14"
+                                                     BorderBrush="#c69fd5"
+                                                     BorderThickness="1"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- Комментарий -->
+                                <StackPanel Margin="0,20,0,0">
+                                    <Label Content="Комментарий к заказу"
                                            Foreground="#333333"
                                            FontSize="13"/>
-                                    <TextBox Padding="10"
-                                             FontSize="14">
-
-                                        <TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                <Setter Property="BorderThickness" Value="1"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border CornerRadius="5" 
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                                    Background="{TemplateBinding Background}">
-                                                                <ScrollViewer x:Name="PART_ContentHost"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </TextBox.Style>
-                                    </TextBox>
-                                </StackPanel>
-
-                                <StackPanel Margin="0,0,0,15">
-                                    <Label Content="Телефон*"
-                                           Foreground="#333333"
-                                           FontSize="13"/>
-                                    <TextBox Padding="10"
-                                             FontSize="14">
-
-                                        <TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                <Setter Property="BorderThickness" Value="1"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border CornerRadius="5" 
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                                    Background="{TemplateBinding Background}">
-                                                                <ScrollViewer x:Name="PART_ContentHost"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </TextBox.Style>
-                                    </TextBox>
+                                    <TextBox x:Name="txtOrderComment"
+                                             Padding="10"
+                                             FontSize="14"
+                                             Height="80"
+                                             TextWrapping="Wrap"
+                                             VerticalScrollBarVisibility="Auto"
+                                             BorderBrush="#c69fd5"
+                                             BorderThickness="1"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <!-- Правая колонка -->
-                            <StackPanel Grid.Column="2">
-                                <StackPanel Margin="0,0,0,15">
-                                    <Label Content="Фамилия*"
-                                           Foreground="#333333"
-                                           FontSize="13"/>
-                                    <TextBox Padding="10"
-                                             FontSize="14">
+                            <!-- Шаг 2: Товары в корзине -->
+                            <StackPanel x:Name="step2Panel" Visibility="Collapsed">
+                                <TextBlock Text="Товары в корзине"
+               FontSize="18" 
+               FontWeight="Bold"
+               Margin="0,0,0,20"/>
 
-                                        <TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                <Setter Property="BorderThickness" Value="1"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border CornerRadius="5" 
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                                    Background="{TemplateBinding Background}">
-                                                                <ScrollViewer x:Name="PART_ContentHost"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </TextBox.Style>
-                                    </TextBox>
-                                </StackPanel>
+                                <TextBlock Text="Ниже представлены товары, добавленные в вашу корзину. Вы можете изменить количество или удалить товары."
+               TextWrapping="Wrap"
+               Foreground="#666666"
+               Margin="0,0,0,15"/>
 
-                                <StackPanel Margin="0,0,0,15">
-                                    <Label Content="Email"
-                                           Foreground="#333333"
-                                           FontSize="13"/>
-                                    <TextBox Padding="10"
-                                             FontSize="14">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-                                        <TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                                <Setter Property="BorderThickness" Value="1"/>
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="TextBox">
-                                                            <Border CornerRadius="5" 
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                                    Background="{TemplateBinding Background}">
-                                                                <ScrollViewer x:Name="PART_ContentHost"/>
-                                                            </Border>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </TextBox.Style>
-                                    </TextBox>
+                                    <!-- Список товаров в корзине -->
+                                    <DataGrid x:Name="dgCartItems"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  SelectionMode="Single"
+                  Margin="0,0,0,20"
+                  MaxHeight="300"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding}">
+
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Услуга"
+                                    Binding="{Binding Name}"
+                                    Width="*"/>
+                                            <DataGridTextColumn Header="Категория"
+                                    Binding="{Binding CategoryName}"
+                                    Width="150"/>
+                                            <DataGridTextColumn Header="Цена за ед."
+                                    Binding="{Binding FinalPrice, StringFormat={}{0:N2} ₽}"
+                                    Width="100"/>
+                                            <DataGridTemplateColumn Header="Количество" Width="120">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Button Content="-"
+                                        Width="25"
+                                        Height="25"
+                                        Click="btnDecreaseQuantity_Click"
+                                        Tag="{Binding CartItemID}"
+                                        Margin="0,0,5,0"
+                                        Background="#c69fd5"
+                                        Foreground="White"
+                                        Cursor="Hand"/>
+                                                            <TextBlock Text="{Binding Quantity}"
+                                           VerticalAlignment="Center"
+                                           Width="30"
+                                           TextAlignment="Center"
+                                           FontWeight="Medium"/>
+                                                            <Button Content="+"
+                                        Width="25"
+                                        Height="25"
+                                        Click="btnIncreaseQuantity_Click"
+                                        Tag="{Binding CartItemID}"
+                                        Margin="5,0,0,0"
+                                        Background="#c69fd5"
+                                        Foreground="White"
+                                        Cursor="Hand"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="Сумма"
+                                    Binding="{Binding TotalPrice, StringFormat={}{0:N2} ₽}"
+                                    Width="100"/>
+                                            <DataGridTemplateColumn Header="Действия" Width="80">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="✕"
+                                    Width="25"
+                                    Height="25"
+                                    Click="btnRemoveFromCart_Click"
+                                    Tag="{Binding CartItemID}"
+                                    Background="#ff6b6b"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Cursor="Hand"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                    <!-- Итоговая сумма -->
+                                    <Border Grid.Row="1"
+                Background="#f5f5f5"
+                Padding="15"
+                CornerRadius="8"
+                HorizontalAlignment="Right">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Общая сумма:"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Margin="0,0,10,0"/>
+                                            <TextBlock x:Name="txtTotalAmount"
+                           Text="0 ₽"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="#c69fd5"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Информационное сообщение -->
+                                <Border Background="#e3f2fd"
+            Padding="15"
+            CornerRadius="8"
+            Margin="0,20,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Важно!"
+                       FontWeight="Bold"
+                       Foreground="#1976d2"
+                       Margin="0,0,0,5"/>
+                                        <TextBlock Text="Заказ будет создан на основе товаров в вашей корзине. После создания заказа корзина будет очищена."
+                       TextWrapping="Wrap"
+                       Foreground="#424242"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+
+                            <!-- Шаг 3: Подтверждение -->
+                            <StackPanel x:Name="step3Panel" Visibility="Collapsed">
+                                <TextBlock Text="Подтверждение заказа"
+                                       FontSize="18" 
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,20"/>
+
+                                <!-- Информация о клиенте -->
+                                <Border Background="#f5f5f5"
+                                    Padding="20"
+                                    CornerRadius="8"
+                                    Margin="0,0,0,20">
+                                    <StackPanel>
+                                        <TextBlock Text="Информация о клиенте"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,10"/>
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="10"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0">
+                                                <StackPanel Margin="0,0,0,10">
+                                                    <TextBlock Text="Имя"
+                                                           Foreground="#666666"
+                                                           FontSize="13"/>
+                                                    <TextBlock x:Name="confirmFirstName"
+                                                           FontSize="14"
+                                                           FontWeight="Medium"/>
+                                                </StackPanel>
+
+                                                <StackPanel Margin="0,0,0,10">
+                                                    <TextBlock Text="Телефон"
+                                                           Foreground="#666666"
+                                                           FontSize="13"/>
+                                                    <TextBlock x:Name="confirmPhone"
+                                                           FontSize="14"
+                                                           FontWeight="Medium"/>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="2">
+                                                <StackPanel Margin="0,0,0,10">
+                                                    <TextBlock Text="Фамилия"
+                                                           Foreground="#666666"
+                                                           FontSize="13"/>
+                                                    <TextBlock x:Name="confirmLastName"
+                                                           FontSize="14"
+                                                           FontWeight="Medium"/>
+                                                </StackPanel>
+
+                                                <StackPanel Margin="0,0,0,10">
+                                                    <TextBlock Text="Email"
+                                                           Foreground="#666666"
+                                                           FontSize="13"/>
+                                                    <TextBlock x:Name="confirmEmail"
+                                                           FontSize="14"
+                                                           FontWeight="Medium"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Выбранные услуги -->
+                                <Border Background="#f5f5f5"
+                                    Padding="20"
+                                    CornerRadius="8"
+                                    Margin="0,0,0,20">
+                                    <StackPanel>
+                                        <TextBlock Text="Выбранные услуги"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,10"/>
+
+                                        <DataGrid x:Name="dgSelectedServices"
+                                              AutoGenerateColumns="False"
+                                              CanUserAddRows="False"
+                                              CanUserDeleteRows="False"
+                                              MaxHeight="200"
+                                              IsReadOnly="True">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Услуга"
+                                                                Binding="{Binding Name}"
+                                                                Width="*"/>
+                                                <DataGridTextColumn Header="Категория"
+                                                                Binding="{Binding CategoryName}"
+                                                                Width="120"/>
+                                                <DataGridTextColumn Header="Количество"
+                                                                Binding="{Binding Quantity}"
+                                                                Width="80"/>
+                                                <DataGridTextColumn Header="Цена за ед."
+                                                                Binding="{Binding FinalPrice, StringFormat={}{0:N2} ₽}"
+                                                                Width="100"/>
+                                                <DataGridTextColumn Header="Сумма"
+                                                                Binding="{Binding TotalPrice, StringFormat={}{0:N2} ₽}"
+                                                                Width="100"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <!-- Итог -->
+                                        <Border Background="#c69fd5"
+                                            CornerRadius="5"
+                                            Padding="10"
+                                            Margin="0,10,0,0"
+                                            HorizontalAlignment="Right">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Итого:"
+                                                       Foreground="White"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Margin="0,0,10,0"/>
+                                                <TextBlock x:Name="confirmTotalAmount"
+                                                       Text="0 ₽"
+                                                       Foreground="White"
+                                                       FontSize="18"
+                                                       FontWeight="Bold"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Комментарий -->
+                                <StackPanel Margin="0,0,0,20">
+                                    <TextBlock Text="Комментарий к заказу"
+                                           FontSize="14"
+                                           FontWeight="Bold"
+                                           Margin="0,0,0,5"/>
+                                    <TextBlock x:Name="confirmComment"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           Foreground="#666666"
+                                           MaxHeight="60"
+                                           TextTrimming="CharacterEllipsis"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
+                    </Border>
 
-                        <!-- Комментарий -->
-                        <StackPanel Margin="0,20,0,0">
-                            <Label Content="Комментарий к заказу"
-                                   Foreground="#333333"
-                                   FontSize="13"/>
-                            <TextBox Padding="10"
-                                     FontSize="14"
-                                     Height="80"
-                                     TextWrapping="Wrap"
-                                     VerticalScrollBarVisibility="Auto">
-
-                                <TextBox.Style>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                        <Setter Property="BorderThickness" Value="1"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="TextBox">
-                                                    <Border CornerRadius="5" 
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                            Background="{TemplateBinding Background}">
-                                                        <ScrollViewer x:Name="PART_ContentHost"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-
-                <!-- Кнопки навигации -->
-                <StackPanel Grid.Row="2" 
+                    <!-- Кнопки навигации -->
+                    <StackPanel Grid.Row="2" 
                             Orientation="Horizontal"
                             HorizontalAlignment="Right">
 
-                    <Button Content="НАЗАД"
+                        <Button x:Name="btnBack"
+                            Content="НАЗАД"
                             Background="Transparent"
                             Foreground="#666666"
                             BorderThickness="1"
@@ -323,68 +483,35 @@
                             Height="40"
                             FontSize="13"
                             Margin="0,0,10,0"
-                            Cursor="Hand" Click="Button_Click">
+                            Cursor="Hand" 
+                            Click="btnBack_Click"/>
 
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border x:Name="border"
-                                                    CornerRadius="5"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-
-                    <Button Content="ДАЛЕЕ"
+                        <Button x:Name="btnNext"
+                            Content="ДАЛЕЕ"
                             Background="#c69fd5"
                             Foreground="White"
                             Width="150" 
                             Height="40"
                             FontSize="14"
                             FontWeight="Bold"
-                            Cursor="Hand" Click="Button_Click_1">
+                            Cursor="Hand" 
+                            Click="btnNext_Click"/>
 
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border x:Name="border"
-                                                    CornerRadius="5"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="{TemplateBinding BorderThickness}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="border" Property="Background" Value="#b289c7"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </Border>
-    </Grid>
+                        <Button x:Name="btnCreateOrder"
+                            Content="СОЗДАТЬ ЗАКАЗ"
+                            Background="#4CAF50"
+                            Foreground="White"
+                            Width="200" 
+                            Height="40"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Cursor="Hand" 
+                            Click="btnCreateOrder_Click"
+                            Visibility="Collapsed"
+                            Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </Page>

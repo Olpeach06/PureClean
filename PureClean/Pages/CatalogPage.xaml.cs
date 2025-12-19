@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 using PureClean.AppData;
 
 namespace PureClean.Pages
@@ -18,18 +14,18 @@ namespace PureClean.Pages
     public partial class CatalogPage : Page
     {
         private Entities _context = new Entities();
+        private DispatcherTimer _priceTimer; // Таймер только для фильтра по цене
 
         public CatalogPage()
         {
             InitializeComponent();
-            InitializePage();
 
-            // Добавьте обработчики событий для фильтров по цене
-            txtMinPrice.TextChanged += PriceFilter_TextChanged;
-            txtMaxPrice.TextChanged += PriceFilter_TextChanged;
-            chkExpensive.Checked += CheckBoxFilter_Changed;
-            chkExpensive.Unchecked += CheckBoxFilter_Changed;
-            btnResetFilters.Click += btnResetFilters_Click;
+            // Настройка таймера только для фильтра по цене
+            _priceTimer = new DispatcherTimer();
+            _priceTimer.Interval = TimeSpan.FromMilliseconds(300);
+            _priceTimer.Tick += PriceTimer_Tick;
+
+            InitializePage();
         }
 
         private void InitializePage()
@@ -37,7 +33,7 @@ namespace PureClean.Pages
             try
             {
                 LoadServiceCategories();
-                SetupFilters();
+                UpdateCartCounter();
                 RefreshData();
             }
             catch (Exception ex)
@@ -61,7 +57,8 @@ namespace PureClean.Pages
                         Content = category.Name,
                         FontSize = 13,
                         Margin = new Thickness(0, 0, 0, 5),
-                        Tag = category.CategoryID
+                        Tag = category.CategoryID,
+                        IsChecked = true // По умолчанию все выбраны
                     };
 
                     checkBox.Checked += CategoryCheckBox_Changed;
@@ -77,11 +74,6 @@ namespace PureClean.Pages
             }
         }
 
-        private void SetupFilters()
-        {
-            // Уже настроено в XAML
-        }
-
         private void RefreshData()
         {
             try
@@ -95,14 +87,7 @@ namespace PureClean.Pages
                     servicesPanel.Children.Add(card);
                 }
 
-                if (!filteredData.Any())
-                {
-                    noServicesPanel.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    noServicesPanel.Visibility = Visibility.Collapsed;
-                }
+                noServicesPanel.Visibility = filteredData.Any() ? Visibility.Collapsed : Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -128,20 +113,27 @@ namespace PureClean.Pages
                 }
 
                 // Фильтр по цене
-                if (int.TryParse(txtMinPrice.Text, out int minPrice))
+                decimal minPrice = 0;
+                decimal maxPrice = 5000;
+
+                if (decimal.TryParse(txtMinPrice.Text, out decimal parsedMinPrice))
                 {
-                    result = result.Where(s => s.FinalPrice >= minPrice);
+                    minPrice = parsedMinPrice;
                 }
 
-                if (int.TryParse(txtMaxPrice.Text, out int maxPrice))
+                if (decimal.TryParse(txtMaxPrice.Text, out decimal parsedMaxPrice))
                 {
-                    result = result.Where(s => s.FinalPrice <= maxPrice);
+                    maxPrice = parsedMaxPrice;
                 }
+
+                result = result.Where(s =>
+                    (s.FinalPrice != null ? s.FinalPrice.Value : 0) >= minPrice &&
+                    (s.FinalPrice != null ? s.FinalPrice.Value : 0) <= maxPrice);
 
                 // Фильтр "Только дорогие"
                 if (chkExpensive.IsChecked == true)
                 {
-                    result = result.Where(s => s.FinalPrice > 1000);
+                    result = result.Where(s => (s.FinalPrice != null ? s.FinalPrice.Value : 0) > 1000);
                 }
 
                 // Фильтр по категориям
@@ -160,23 +152,27 @@ namespace PureClean.Pages
                 }
 
                 // Сортировка
-                if (cmbSort?.SelectedIndex > 0)
+                if (cmbSort != null && cmbSort.SelectedIndex >= 0)
                 {
                     switch (cmbSort.SelectedIndex)
                     {
-                        case 1:
-                            result = result.OrderBy(s => s.FinalPrice);
-                            break;
-                        case 2:
-                            result = result.OrderByDescending(s => s.FinalPrice);
-                            break;
-                        case 3:
-                            result = result.OrderBy(s => s.Name);
-                            break;
-                        default:
+                        case 0: // По умолчанию
                             result = result.OrderBy(s => s.ServiceID);
                             break;
+                        case 1: // По возрастанию цены
+                            result = result.OrderBy(s => s.FinalPrice);
+                            break;
+                        case 2: // По убыванию цены
+                            result = result.OrderByDescending(s => s.FinalPrice);
+                            break;
+                        case 3: // По названию
+                            result = result.OrderBy(s => s.Name);
+                            break;
                     }
+                }
+                else
+                {
+                    result = result.OrderBy(s => s.ServiceID);
                 }
 
                 return result.ToList();
@@ -189,12 +185,12 @@ namespace PureClean.Pages
             }
         }
 
-        private UIElement CreateServiceCard(Services service)
+        private Border CreateServiceCard(Services service)
         {
             var border = new Border
             {
-                Width = 220,
-                Height = 330,
+                Width = 240,
+                Height = 380,
                 Background = Brushes.White,
                 Margin = new Thickness(10),
                 CornerRadius = new CornerRadius(10),
@@ -214,7 +210,7 @@ namespace PureClean.Pages
                 Margin = new Thickness(15)
             };
 
-            // Изображение
+            // Изображение услуги
             var imageBorder = new Border
             {
                 Height = 100,
@@ -222,6 +218,17 @@ namespace PureClean.Pages
                 CornerRadius = new CornerRadius(5),
                 Margin = new Thickness(0, 0, 0, 10)
             };
+
+            var iconText = GetCategoryIcon(service.CategoryID);
+            var iconBlock = new TextBlock
+            {
+                Text = iconText,
+                FontSize = 40,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = Brushes.White
+            };
+            imageBorder.Child = iconBlock;
 
             // Название
             var nameText = new TextBlock
@@ -231,9 +238,10 @@ namespace PureClean.Pages
                 FontWeight = FontWeights.Bold,
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 0, 5),
-                MaxWidth = 190,
-                MaxHeight = 40,
-                TextTrimming = TextTrimming.CharacterEllipsis
+                MaxWidth = 200,
+                MaxHeight = 45,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 
             // Описание
@@ -242,62 +250,162 @@ namespace PureClean.Pages
             {
                 descriptionText = new TextBlock
                 {
-                    Text = service.Description.Length > 60
-                        ? service.Description.Substring(0, 60) + "..."
+                    Text = service.Description.Length > 70
+                        ? service.Description.Substring(0, 70) + "..."
                         : service.Description,
                     FontSize = 12,
                     Foreground = Brushes.Gray,
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(0, 0, 0, 10),
-                    MaxWidth = 190,
-                    Height = 40
+                    MaxWidth = 200,
+                    Height = 50,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    TextAlignment = TextAlignment.Center
                 };
             }
 
             // Цена
             var priceStackPanel = new StackPanel
             {
-                Margin = new Thickness(0, 0, 0, 15)
+                Margin = new Thickness(0, 0, 0, 10),
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 
-            if (service.OldPrice.HasValue && service.OldPrice > 0 && service.DiscountPercent.HasValue)
+            if (service.OldPrice.HasValue && service.OldPrice.Value > 0 && service.DiscountPercent.HasValue)
             {
+                var oldPriceStack = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+
                 var oldPriceText = new TextBlock
                 {
-                    Text = $"{service.OldPrice.Value} руб.",
+                    Text = $"{service.OldPrice.Value:N0} ₽",
                     FontSize = 12,
                     Foreground = Brushes.Gray,
                     TextDecorations = TextDecorations.Strikethrough,
-                    Margin = new Thickness(0, 0, 0, 2)
+                    Margin = new Thickness(0, 0, 5, 0),
+                    VerticalAlignment = VerticalAlignment.Center
                 };
-                priceStackPanel.Children.Add(oldPriceText);
+
+                var discountBadge = new Border
+                {
+                    Background = Brushes.OrangeRed,
+                    CornerRadius = new CornerRadius(3),
+                    Padding = new Thickness(5, 2, 5, 2),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Child = new TextBlock
+                    {
+                        Text = $"-{service.DiscountPercent.Value}%",
+                        FontSize = 10,
+                        Foreground = Brushes.White,
+                        FontWeight = FontWeights.Bold
+                    }
+                };
+
+                oldPriceStack.Children.Add(oldPriceText);
+                oldPriceStack.Children.Add(discountBadge);
+                priceStackPanel.Children.Add(oldPriceStack);
             }
 
             var currentPriceText = new TextBlock
             {
-                Text = $"{service.FinalPrice} руб.",
-                FontSize = 18,
-                FontWeight = FontWeights.SemiBold,
-                Foreground = service.FinalPrice > 1000 ? Brushes.Red : Brushes.DarkGreen
+                Text = $"{service.FinalPrice:N0} ₽",
+                FontSize = 20,
+                FontWeight = FontWeights.Bold,
+                Foreground = (service.FinalPrice != null && service.FinalPrice.Value > 1000) ?
+                    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E91E63")) :
+                    new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4CAF50")),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 3, 0, 5)
             };
+
+            if (service.FinalPrice != null && service.FinalPrice.Value > 1000)
+            {
+                var expensiveBadge = new Border
+                {
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5252")),
+                    CornerRadius = new CornerRadius(3),
+                    Padding = new Thickness(8, 3, 8, 3),
+                    Margin = new Thickness(0, 0, 0, 5),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Child = new TextBlock
+                    {
+                        Text = "Премиум",
+                        FontSize = 11,
+                        Foreground = Brushes.White,
+                        FontWeight = FontWeights.Bold
+                    }
+                };
+                priceStackPanel.Children.Add(expensiveBadge);
+            }
+
             priceStackPanel.Children.Add(currentPriceText);
 
-            // Кнопка "В корзину" - ПРОСТОЙ ВАРИАНТ
+            // Панель для кнопок
+            var buttonsStackPanel = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
+            // Кнопка "Подробнее"
+            var detailsButton = new Button
+            {
+                Content = "Подробнее",
+                Background = Brushes.Transparent,
+                Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c69fd5")),
+                FontSize = 12,
+                Height = 30,
+                Width = 90,
+                BorderThickness = new Thickness(1),
+                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c69fd5")),
+                Margin = new Thickness(0, 0, 5, 0),
+                Cursor = Cursors.Hand,
+                Tag = service.ServiceID
+            };
+
+            detailsButton.Click += (s, e) =>
+            {
+                NavigateToServiceDetails(service.ServiceID);
+            };
+
+            // Кнопка "В корзину"
             var addToCartButton = new Button
             {
                 Content = "В корзину",
                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c69fd5")),
                 Foreground = Brushes.White,
-                FontSize = 13,
+                FontSize = 12,
                 FontWeight = FontWeights.Bold,
-                Height = 35,
+                Height = 30,
+                Width = 90,
                 BorderThickness = new Thickness(0),
-                Margin = new Thickness(0, 5, 0, 0),
+                Margin = new Thickness(5, 0, 0, 0),
                 Cursor = Cursors.Hand,
                 Tag = service.ServiceID
             };
 
-            // ПРОСТОЙ ОБРАБОТЧИК С ТРИГГЕРОМ В КОДЕ
+            addToCartButton.Click += (s, e) =>
+            {
+                AddToCart(service.ServiceID, service.Name);
+            };
+
+            // Добавляем стили через триггеры
+            detailsButton.MouseEnter += (s, e) =>
+            {
+                detailsButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#fdfdc9"));
+                detailsButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#b289c7"));
+            };
+
+            detailsButton.MouseLeave += (s, e) =>
+            {
+                detailsButton.Background = Brushes.Transparent;
+                detailsButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c69fd5"));
+            };
+
             addToCartButton.MouseEnter += (s, e) =>
             {
                 addToCartButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#b289c7"));
@@ -308,10 +416,8 @@ namespace PureClean.Pages
                 addToCartButton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#c69fd5"));
             };
 
-            addToCartButton.Click += (s, e) =>
-            {
-                AddToCart(service.ServiceID, service.Name);
-            };
+            buttonsStackPanel.Children.Add(detailsButton);
+            buttonsStackPanel.Children.Add(addToCartButton);
 
             // Собираем карточку
             mainStackPanel.Children.Add(imageBorder);
@@ -321,37 +427,91 @@ namespace PureClean.Pages
                 mainStackPanel.Children.Add(descriptionText);
 
             mainStackPanel.Children.Add(priceStackPanel);
-            mainStackPanel.Children.Add(addToCartButton);
+            mainStackPanel.Children.Add(buttonsStackPanel);
 
             border.Child = mainStackPanel;
+
+            // Обработчик клика по карточке
+            border.MouseLeftButtonDown += (s, e) =>
+            {
+                var source = e.OriginalSource as FrameworkElement;
+                if (source != null && !IsChildOfButton(source))
+                {
+                    NavigateToServiceDetails(service.ServiceID);
+                }
+            };
+
+            border.MouseEnter += (s, e) =>
+            {
+                border.Background = new SolidColorBrush(Color.FromArgb(255, 250, 250, 250));
+            };
+
+            border.MouseLeave += (s, e) =>
+            {
+                border.Background = Brushes.White;
+            };
+
             return border;
         }
 
-        // ИСПРАВЛЕННЫЙ МЕТОД ДОБАВЛЕНИЯ В КОРЗИНУ
+        private bool IsChildOfButton(DependencyObject element)
+        {
+            while (element != null)
+            {
+                if (element is Button)
+                    return true;
+                element = VisualTreeHelper.GetParent(element);
+            }
+            return false;
+        }
+
+        private string GetCategoryIcon(int categoryId)
+        {
+            switch (categoryId)
+            {
+                case 1:
+                    return "🧥"; // Верхняя одежда
+                case 2:
+                    return "👕"; // Одежда
+                case 3:
+                    return "🛏️"; // Постельное белье
+                case 4:
+                    return "🎀"; // Текстиль
+                case 5:
+                    return "👔"; // Костюмы
+                case 6:
+                    return "👟"; // Обувь
+                default:
+                    return "🧺";
+            }
+        }
+
+        private void NavigateToServiceDetails(int serviceId)
+        {
+            try
+            {
+                var serviceDetailsPage = new ServiceDetailsPage(serviceId);
+                NavigationService.Navigate(serviceDetailsPage);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка перехода: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void AddToCart(int serviceId, string serviceName = null)
         {
             try
             {
-                // Проверяем, авторизован ли пользователь
-                if (Session.IsGuest)
+                if (Session.IsGuest || !Session.IsAuthenticated)
                 {
                     ShowGuestWarning();
                     return;
                 }
 
-                // Проверяем, авторизован ли пользователь
-                if (!Session.IsAuthenticated)
-                {
-                    MessageBox.Show("Пожалуйста, войдите в систему для добавления услуг в корзину.",
-                        "Требуется авторизация",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
-                    return;
-                }
-
                 using (var context = new Entities())
                 {
-                    // Проверяем, существует ли услуга
                     var service = context.Services.FirstOrDefault(s => s.ServiceID == serviceId);
                     if (service == null)
                     {
@@ -360,8 +520,6 @@ namespace PureClean.Pages
                         return;
                     }
 
-                    // Находим ClientID пользователя - УПРОЩЕННЫЙ ВАРИАНТ
-                    // Предполагаем, что в таблице Users есть связь с Clients
                     var user = context.Users.FirstOrDefault(u => u.UserID == Session.UserID);
                     if (user == null)
                     {
@@ -370,67 +528,54 @@ namespace PureClean.Pages
                         return;
                     }
 
-                    // Сначала пытаемся найти клиента по email или phone
                     var client = context.Clients.FirstOrDefault(c =>
                         c.Email == user.Email ||
-                        c.Phone == user.Phone ||
-                        (c.Email == user.Login) ||
-                        (c.Phone == user.Login));
+                        (!string.IsNullOrEmpty(user.Phone) && c.Phone == user.Phone));
 
-                    // Если клиент не найден, создаем нового клиента - УПРОЩЕННЫЙ ВАРИАНТ
                     if (client == null)
                     {
                         try
                         {
+                            string phone = !string.IsNullOrEmpty(user.Phone) ? user.Phone :
+                                $"+7{new Random().Next(100000000, 999999999)}";
+
+                            string email = !string.IsNullOrEmpty(user.Email) ? user.Email :
+                                $"{user.Login.Replace(" ", "")}_{Session.UserID}@pureclean.com";
+
                             client = new Clients
                             {
-                                FirstName = user.FirstName,
-                                LastName = user.LastName,
-                                Phone = user.Phone ?? string.Empty,
-                                Email = user.Email ?? user.Login,
+                                FirstName = user.FirstName ?? "Имя",
+                                LastName = user.LastName ?? "Фамилия",
+                                Phone = phone,
+                                Email = email,
                                 RegistrationDate = DateTime.Now
                             };
-                            context.Clients.Add(client);
-                            context.SaveChanges(); // Сохраняем сначала клиента
 
-                            MessageBox.Show($"Создан новый клиент: {client.FirstName} {client.LastName}",
-                                "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                            context.Clients.Add(client);
+                            context.SaveChanges();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Ошибка создания клиента: {ex.Message}\n\nInner: {ex.InnerException?.Message}",
+                            MessageBox.Show($"Ошибка создания клиента: {ex.Message}",
                                 "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
                     }
 
-                    int clientId = client.ClientID;
-
-                    // Находим или создаем корзину
-                    var cart = context.Cart.FirstOrDefault(c => c.ClientID == clientId);
+                    var cart = context.Cart.FirstOrDefault(c => c.ClientID == client.ClientID);
 
                     if (cart == null)
                     {
                         cart = new Cart
                         {
-                            ClientID = clientId,
+                            ClientID = client.ClientID,
                             CreatedDate = DateTime.Now,
                             LastUpdated = DateTime.Now
                         };
                         context.Cart.Add(cart);
-                        try
-                        {
-                            context.SaveChanges(); // Сохраняем корзину
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Ошибка создания корзины: {ex.Message}\n\nInner: {ex.InnerException?.Message}",
-                                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return;
-                        }
+                        context.SaveChanges();
                     }
 
-                    // Проверяем, есть ли уже в корзине
                     var existingItem = context.CartItems
                         .FirstOrDefault(ci => ci.CartID == cart.CartID && ci.ServiceID == serviceId);
 
@@ -452,60 +597,65 @@ namespace PureClean.Pages
                     }
 
                     cart.LastUpdated = DateTime.Now;
+                    context.SaveChanges();
 
-                    try
-                    {
-                        context.SaveChanges(); // Сохраняем изменения
-                        
+                    Session.CartItemCount = Session.CartItemCount != null ? Session.CartItemCount + 1 : 1;
+                    UpdateCartCounter();
 
-                        MessageBox.Show($"Услуга \"{service.Name}\" добавлена в корзину!",
-                            "Успешно",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                    }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                    {
-                        // Ловим ошибки валидации сущностей
-                        var errorMessages = new List<string>();
-                        foreach (var validationErrors in dbEx.EntityValidationErrors)
-                        {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
-                                errorMessages.Add($"Свойство: {validationError.PropertyName} Ошибка: {validationError.ErrorMessage}");
-                            }
-                        }
-                        var fullErrorMessage = string.Join("\n", errorMessages);
-                        MessageBox.Show($"Ошибка валидации при добавлении в корзину:\n{fullErrorMessage}",
-                            "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    catch (System.Data.Entity.Infrastructure.DbUpdateException updateEx)
-                    {
-                        // Ловим ошибки обновления БД
-                        var innerExceptionMessage = updateEx.InnerException?.Message ?? "Нет дополнительной информации";
-                        MessageBox.Show($"Ошибка обновления базы данных:\n{updateEx.Message}\n\nВнутренняя ошибка:\n{innerExceptionMessage}",
-                            "Ошибка БД", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    MessageBox.Show($"Услуга \"{service.Name}\" добавлена в корзину!",
+                        "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
-                // Выводим полную информацию об ошибке
-                var errorMessage = $"Ошибка при добавлении в корзину:\n{ex.Message}";
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
-                if (ex.InnerException != null)
+        private void UpdateCartCounter()
+        {
+            try
+            {
+                if (Session.IsAuthenticated && Session.UserID != null)
                 {
-                    errorMessage += $"\n\nВнутренняя ошибка:\n{ex.InnerException.Message}";
-
-                    if (ex.InnerException.InnerException != null)
+                    using (var context = new Entities())
                     {
-                        errorMessage += $"\n\nДетали:\n{ex.InnerException.InnerException.Message}";
+                        var user = context.Users.FirstOrDefault(u => u.UserID == Session.UserID);
+                        if (user != null)
+                        {
+                            var client = context.Clients.FirstOrDefault(c =>
+                                c.Email == user.Email ||
+                                (!string.IsNullOrEmpty(user.Phone) && c.Phone == user.Phone));
+
+                            if (client != null)
+                            {
+                                var cart = context.Cart.FirstOrDefault(c => c.ClientID == client.ClientID);
+                                if (cart != null)
+                                {
+                                    var cartItems = context.CartItems.Where(ci => ci.CartID == cart.CartID).ToList();
+                                    int cartItemsCount = 0;
+
+                                    foreach (var item in cartItems)
+                                    {
+                                        cartItemsCount += item.Quantity;
+                                    }
+
+                                    txtCartCount.Text = cartItemsCount.ToString();
+                                    Session.CartItemCount = cartItemsCount;
+                                    return;
+                                }
+                            }
+                        }
                     }
                 }
 
-                MessageBox.Show(errorMessage,
-                    "Ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                txtCartCount.Text = "0";
+                Session.CartItemCount = 0;
+            }
+            catch
+            {
+                txtCartCount.Text = "0";
             }
         }
 
@@ -527,10 +677,6 @@ namespace PureClean.Pages
             }
         }
 
-        // ИСПРАВЛЕННЫЙ МЕТОД ДЛЯ ОБНОВЛЕНИЯ СЧЕТЧИКА КОРЗИНЫ
-        
-
-        // Метод для обновления видимости элементов навигации
         private void UpdateNavigationVisibility()
         {
             if (Session.IsGuest)
@@ -547,7 +693,7 @@ namespace PureClean.Pages
             }
         }
 
-        // Обработчики событий
+        // Основные исправления здесь:
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -571,36 +717,42 @@ namespace PureClean.Pages
             }
         }
 
+        // 1. Поиск - обновляется сразу
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            RefreshData(); // Без задержки
+        }
+
+        // 2. Таймер только для фильтра по цене
+        private void PriceTimer_Tick(object sender, EventArgs e)
+        {
+            _priceTimer.Stop();
             RefreshData();
         }
 
+        // 3. Сортировка - обновляется сразу
         private void SortComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RefreshData();
+            RefreshData(); // Без задержки
         }
 
+        // 4. Фильтр по цене - с задержкой
         private void PriceFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
-            timer.Tick += (s, args) =>
-            {
-                timer.Stop();
-                RefreshData();
-            };
-            timer.Start();
+            _priceTimer.Stop();
+            _priceTimer.Start(); // Только для фильтра по цене
         }
 
+        // 5. Чекбокс "Дорогие услуги" - обновляется сразу
         private void CheckBoxFilter_Changed(object sender, RoutedEventArgs e)
         {
-            RefreshData();
+            RefreshData(); // Без задержки
         }
 
+        // 6. Категории - обновляются сразу
         private void CategoryCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            RefreshData();
+            RefreshData(); // Без задержки
         }
 
         private void btnResetFilters_Click(object sender, RoutedEventArgs e)
@@ -609,11 +761,13 @@ namespace PureClean.Pages
             txtMinPrice.Text = "0";
             txtMaxPrice.Text = "5000";
             chkExpensive.IsChecked = false;
-            cmbSort.SelectedIndex = 0;
+
+            if (cmbSort != null)
+                cmbSort.SelectedIndex = 0;
 
             foreach (CheckBox checkBox in categoryPanel.Children)
             {
-                checkBox.IsChecked = false;
+                checkBox.IsChecked = true;
             }
 
             RefreshData();
@@ -624,25 +778,6 @@ namespace PureClean.Pages
             MessageBox.Show("Добавление новой услуги", "Добавить");
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Редактирование услуги", "Редактировать");
-        }
-
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBox.Show("Вы уверены, что хотите удалить выбранную услугу?",
-                "Подтверждение удаления",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                MessageBox.Show("Услуга удалена", "Удаление");
-                RefreshData();
-            }
-        }
-
         private void MyOrdersButton_Click(object sender, RoutedEventArgs e)
         {
             if (Session.IsGuest)
@@ -651,7 +786,6 @@ namespace PureClean.Pages
                 return;
             }
 
-            // TODO: Переход на страницу моих заказов
             NavigationService.Navigate(new MyOrdersPage());
         }
 
@@ -663,7 +797,6 @@ namespace PureClean.Pages
                 return;
             }
 
-            // TODO: Переход на страницу профиля
             NavigationService.Navigate(new ProfilePage());
         }
 
@@ -675,7 +808,6 @@ namespace PureClean.Pages
                 return;
             }
 
-            // TODO: Переход на страницу корзины
             NavigationService.Navigate(new CartPage());
         }
     }

@@ -12,13 +12,8 @@
         <!-- Основной контент -->
         <Border Background="White"
                 Margin="20"
-                Padding="30">
-
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="15"/>
-                </Style>
-            </Border.Style>
+                Padding="30"
+                CornerRadius="15">
 
             <Border.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity="0.2" 
@@ -34,13 +29,8 @@
                         <Border Width="80" 
                                 Height="80"
                                 Background="#fdfdc9"
-                                Margin="0,0,15,0">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                                Margin="0,0,15,0"
+                                CornerRadius="10">
 
                             <TextBlock Text="🖼️"
                                        FontSize="40"
@@ -50,12 +40,14 @@
                         </Border>
 
                         <StackPanel>
-                            <TextBlock Text="Химчистка пальто"
+                            <TextBlock x:Name="serviceNameText"
+                                       Text="Название услуги"
                                        FontSize="24" 
                                        FontWeight="Bold"
                                        Foreground="#333333"/>
 
-                            <TextBlock Text="Верхняя одежда"
+                            <TextBlock x:Name="categoryText"
+                                       Text="Категория"
                                        FontSize="14"
                                        Foreground="#666666"/>
                         </StackPanel>
@@ -64,16 +56,10 @@
                     <!-- Цена и скидка -->
                     <Border Background="#fdfdc9"
                             Padding="20"
-                            Margin="0,0,0,30">
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
 
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Border.Style>
-
-                        <StackPanel Orientation="Horizontal"
-                                    >
+                        <StackPanel Orientation="Horizontal">
 
                             <!-- Цены -->
                             <StackPanel>
@@ -82,7 +68,8 @@
                                     <TextBlock Text="Старая цена:"
                                                Foreground="#666666"
                                                Margin="0,0,10,0"/>
-                                    <TextBlock Text="2 000 ₽"
+                                    <TextBlock x:Name="oldPriceText"
+                                               Text=""
                                                TextDecorations="Strikethrough"
                                                Foreground="#999999"/>
                                 </StackPanel>
@@ -92,7 +79,8 @@
                                                Foreground="#333333"
                                                FontWeight="SemiBold"
                                                Margin="0,0,10,0"/>
-                                    <TextBlock Text="1 800 ₽"
+                                    <TextBlock x:Name="currentPriceText"
+                                               Text="0 ₽"
                                                FontSize="20"
                                                FontWeight="Bold"
                                                Foreground="#c69fd5"/>
@@ -100,17 +88,16 @@
                             </StackPanel>
 
                             <!-- Скидка -->
-                            <Border Background="#FF4081"
+                            <Border x:Name="discountBorder"
+                                    Background="#FF4081"
                                     Padding="10,5"
-                                    VerticalAlignment="Center">
+                                    VerticalAlignment="Center"
+                                    CornerRadius="5"
+                                    Visibility="Collapsed"
+                                    Margin="30,0,0,0">
 
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="5"/>
-                                    </Style>
-                                </Border.Style>
-
-                                <TextBlock Text="-10%"
+                                <TextBlock x:Name="discountText"
+                                           Text=""
                                            Foreground="White"
                                            FontSize="16"
                                            FontWeight="Bold"/>
@@ -126,15 +113,11 @@
 
                     <Border Background="#fdfdc9"
                             Padding="20"
-                            Margin="0,0,0,30">
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
 
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Border.Style>
-
-                        <TextBlock Text="Полная химическая чистка шерстяного пальто. Профессиональная обработка, удаление пятен, восстановление цвета и формы. Подходит для всех видов шерстяных пальто."
+                        <TextBlock x:Name="descriptionText"
+                                   Text="Описание отсутствует"
                                    Foreground="#333333"
                                    TextWrapping="Wrap"
                                    FontSize="14"
@@ -162,7 +145,8 @@
                                     <TextBlock Text="Время выполнения:"
                                                Width="150"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="48 часов"
+                                    <TextBlock x:Name="executionTimeText"
+                                               Text="0 часов"
                                                FontWeight="Medium"/>
                                 </StackPanel>
 
@@ -171,15 +155,8 @@
                                     <TextBlock Text="Категория:"
                                                Width="150"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="Верхняя одежда"/>
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal" 
-                                            Margin="0,0,0,10">
-                                    <TextBlock Text="Материалы:"
-                                               Width="150"
-                                               Foreground="#666666"/>
-                                    <TextBlock Text="Шерсть, кашемир"/>
+                                    <TextBlock x:Name="categoryDetailText"
+                                               Text="Не указана"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -197,7 +174,8 @@
                                     <TextBlock Text="Заказов выполнено:"
                                                Width="150"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="156"
+                                    <TextBlock x:Name="ordersCountText"
+                                               Text="0"
                                                FontWeight="Medium"/>
                                 </StackPanel>
 
@@ -206,15 +184,17 @@
                                     <TextBlock Text="Рейтинг:"
                                                Width="150"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="4.8 ★"/>
+                                    <TextBlock x:Name="ratingText"
+                                               Text="Нет оценок"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" 
                                             Margin="0,0,0,10">
-                                    <TextBlock Text="Дата добавления:"
+                                    <TextBlock Text="ID услуги:"
                                                Width="150"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="01.01.2024"/>
+                                    <TextBlock x:Name="addedDateText"
+                                               Text="0"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -228,18 +208,11 @@
 
                     <Border Background="#fdfdc9"
                             Padding="20"
-                            Margin="0,0,0,30">
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
 
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Border.Style>
-
-                        <TextBlock Text="• Только профессиональная химчистка
-• Избегать попадания воды
-• Хранить в чехле в сухом месте
-• Не гладить при высокой температуре"
+                        <TextBlock x:Name="careInstructionsText"
+                                   Text="• Инструкции по уходу отсутствуют"
                                    Foreground="#333333"
                                    FontSize="14"
                                    LineHeight="24"/>
@@ -249,7 +222,8 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Right">
 
-                        <Button Content="НАЗАД"
+                        <Button x:Name="btnBack"
+                                Content="НАЗАД"
                                 Background="Transparent"
                                 Foreground="#666666"
                                 BorderThickness="1"
@@ -258,7 +232,8 @@
                                 Height="40"
                                 FontSize="13"
                                 Margin="0,0,10,0"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="btnBack_Click">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -285,14 +260,16 @@
                             </Button.Style>
                         </Button>
 
-                        <Button Content="В КОРЗИНУ"
+                        <Button x:Name="btnAddToCart"
+                                Content="В КОРЗИНУ"
                                 Background="#c69fd5"
                                 Foreground="White"
                                 Width="150" 
                                 Height="40"
                                 FontSize="13"
                                 FontWeight="Bold"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="btnAddToCart_Click">
 
                             <Button.Style>
                                 <Style TargetType="Button">

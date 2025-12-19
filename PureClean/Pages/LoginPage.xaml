@@ -34,7 +34,7 @@
             <StackPanel>
                 <!-- Логотип и заголовок -->
                 <StackPanel HorizontalAlignment="Center" Margin="0,0,0,30">
-                    <TextBlock Text="🧺" 
+                    <TextBlock Text="🧼" 
                                FontSize="64"
                                Foreground="#c69fd5"
                                HorizontalAlignment="Center"/>
