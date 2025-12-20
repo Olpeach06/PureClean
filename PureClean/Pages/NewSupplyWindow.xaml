@@ -1,0 +1,212 @@
+﻿<Window x:Class="PureClean.Pages.NewSupplyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib"
+        Title="Новая поставка" 
+        Height="750" 
+        Width="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#fdfdc9">
+
+    <Grid>
+        <Border Background="White" Margin="15" Padding="20" CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="3"/>
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Text="➕ Новая поставка материала" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"
+                           Foreground="#333333"/>
+
+                <StackPanel>
+                    <!-- Материал -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Материал*" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cmbMaterial"
+                                  Height="35"
+                                  FontSize="14"
+                                  BorderBrush="#c69fd5"
+                                  BorderThickness="1"
+                                  DisplayMemberPath="Name"
+                                  SelectionChanged="cmbMaterial_SelectionChanged"/>
+                    </StackPanel>
+
+                    <!-- Поставщик -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Поставщик*" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cmbSupplier"
+                                  Height="35"
+                                  FontSize="14"
+                                  BorderBrush="#c69fd5"
+                                  BorderThickness="1"
+                                  DisplayMemberPath="Name"/>
+                    </StackPanel>
+
+                    <!-- Количество -->
+                    <StackPanel Margin="0,0,0,15">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="Количество*" 
+                                       FontSize="14" 
+                                       Foreground="#666666"/>
+                            <TextBlock x:Name="txtUnit"
+                                       Text=""
+                                       FontSize="14"
+                                       Foreground="#c69fd5"
+                                       Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <TextBox x:Name="txtQuantity"
+                                 Height="35"
+                                 FontSize="14"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <!-- Цена -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Цена за единицу* (₽)" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtPrice"
+                                 Height="35"
+                                 FontSize="14"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <!-- Дата поставки -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Дата поставки" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <DatePicker x:Name="dpSupplyDate"
+                                    Height="35"
+                                    FontSize="14"
+                                    BorderBrush="#c69fd5"
+                                    SelectedDate="{x:Static System:DateTime.Today}"/>
+                    </StackPanel>
+
+                    <!-- Номер накладной -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Номер накладной" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtInvoice"
+                                 Height="35"
+                                 FontSize="14"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1"
+                                 Padding="5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Итоговая сумма -->
+                <Border Background="#fdfdc9"
+                        Padding="15"
+                        Margin="0,0,0,20"
+                        CornerRadius="5">
+                    <StackPanel>
+                        <TextBlock Text="Итоговая сумма поставки:" 
+                                   FontSize="14" 
+                                   Foreground="#666666"/>
+                        <TextBlock x:Name="txtTotalAmount"
+                                   Text="0 ₽"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#c69fd5"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right"
+                            Margin="0,20,0,0">
+
+                    <Button Content="Отмена"
+                            Width="100" 
+                            Height="35"
+                            Background="Transparent"
+                            Foreground="#666666"
+                            BorderBrush="#666666"
+                            BorderThickness="1"
+                            FontSize="13"
+                            Margin="0,0,10,0"
+                            Cursor="Hand"
+                            Click="btnCancel_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button x:Name="btnSave"
+                            Content="Добавить поставку"
+                            Width="150" 
+                            Height="35"
+                            Background="#c69fd5"
+                            Foreground="White"
+                            FontSize="13"
+                            Cursor="Hand"
+                            Click="btnSave_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

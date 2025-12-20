@@ -6,7 +6,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1000"
       Title="Детали заказа" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
     <Grid>
         <!-- Основной контент -->
@@ -37,16 +38,19 @@
                                    Margin="0,0,15,0"/>
 
                         <StackPanel>
-                            <TextBlock Text="Заказ № 12345"
+                            <TextBlock x:Name="txtOrderNumber"
+                                       Text="Заказ №"
                                        FontSize="24" 
                                        FontWeight="Bold"
                                        Foreground="#333333"/>
 
-                            <Border Background="#4CAF50"
+                            <Border x:Name="statusBorder"
+                                    Background="#4CAF50"
                                     Padding="8,4"
                                     Margin="0,5,0,0"
                                     CornerRadius="5">
-                                <TextBlock Text="Готов"
+                                <TextBlock x:Name="txtStatus"
+                                           Text="Готов"
                                            Foreground="White"
                                            FontWeight="Bold"/>
                             </Border>
@@ -74,7 +78,8 @@
                                     <TextBlock Text="Клиент:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="Иванов Иван Иванович"
+                                    <TextBlock x:Name="txtClientName"
+                                               Text="Иванов Иван Иванович"
                                                FontWeight="Medium"/>
                                 </StackPanel>
 
@@ -83,7 +88,8 @@
                                     <TextBlock Text="Телефон:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="+7 (999) 123-45-67"/>
+                                    <TextBlock x:Name="txtClientPhone"
+                                               Text="+7 (999) 123-45-67"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" 
@@ -91,7 +97,8 @@
                                     <TextBlock Text="Email:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="ivan@example.com"/>
+                                    <TextBlock x:Name="txtClientEmail"
+                                               Text="ivan@example.com"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" 
@@ -99,7 +106,8 @@
                                     <TextBlock Text="Принял:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="Петрова Мария"/>
+                                    <TextBlock x:Name="txtEmployeeName"
+                                               Text="Петрова Мария"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -117,7 +125,8 @@
                                     <TextBlock Text="Дата приема:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="10.12.2024 14:30"/>
+                                    <TextBlock x:Name="txtAcceptanceDate"
+                                               Text="10.12.2024 14:30"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" 
@@ -125,7 +134,8 @@
                                     <TextBlock Text="План сдачи:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="13.12.2024 18:00"/>
+                                    <TextBlock x:Name="txtPlannedDate"
+                                               Text="13.12.2024 18:00"/>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" 
@@ -133,7 +143,8 @@
                                     <TextBlock Text="Факт сдачи:"
                                                Width="120"
                                                Foreground="#666666"/>
-                                    <TextBlock Text="13.12.2024 16:45"/>
+                                    <TextBlock x:Name="txtActualDate"
+                                               Text="13.12.2024 16:45"/>
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -207,7 +218,8 @@
                                 <TextBlock Text="Комментарий к заказу"
                                            FontWeight="SemiBold"
                                            Margin="0,0,0,10"/>
-                                <TextBlock Text="Пальто с пятном на рукаве, требуется деликатная чистка"
+                                <TextBlock x:Name="txtComment"
+                                           Text="Комментарий отсутствует"
                                            Foreground="#666666"
                                            TextWrapping="Wrap"/>
                             </StackPanel>
@@ -219,7 +231,8 @@
                                             Margin="0,0,0,10">
                                     <TextBlock Text="Сумма заказа:"
                                                Width="120"/>
-                                    <TextBlock Text="2 600 ₽"
+                                    <TextBlock x:Name="txtTotalAmount"
+                                               Text="0 ₽"
                                                FontWeight="Bold"/>
                                 </StackPanel>
 
@@ -227,7 +240,8 @@
                                             Margin="0,0,0,10">
                                     <TextBlock Text="Предоплата:"
                                                Width="120"/>
-                                    <TextBlock Text="500 ₽"
+                                    <TextBlock x:Name="txtPrepayment"
+                                               Text="0 ₽"
                                                Foreground="#4CAF50"/>
                                 </StackPanel>
 
@@ -235,7 +249,8 @@
                                             Margin="0,0,0,10">
                                     <TextBlock Text="К оплате:"
                                                Width="120"/>
-                                    <TextBlock Text="2 100 ₽"
+                                    <TextBlock x:Name="txtRemainder"
+                                               Text="0 ₽"
                                                FontWeight="Bold"
                                                Foreground="#c69fd5"
                                                FontSize="16"/>
@@ -249,6 +264,7 @@
                                 HorizontalAlignment="Right">
 
                         <Button Content="НАЗАД"
+                                x:Name="btnBack"
                                 Background="Transparent"
                                 Foreground="#666666"
                                 BorderThickness="1"
@@ -257,7 +273,8 @@
                                 Height="40"
                                 FontSize="13"
                                 Margin="0,0,10,0"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="btnBack_Click">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -291,7 +308,8 @@
                                 Height="40"
                                 FontSize="13"
                                 Margin="0,0,10,0"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="btnPrint_Click">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -319,12 +337,14 @@
                         </Button>
 
                         <Button Content="ИЗМЕНИТЬ СТАТУС"
+                                x:Name="btnChangeStatus"
                                 Background="#c69fd5"
                                 Foreground="White"
                                 Width="150" 
                                 Height="40"
                                 FontSize="13"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                Click="btnChangeStatus_Click">
 
                             <Button.Style>
                                 <Style TargetType="Button">

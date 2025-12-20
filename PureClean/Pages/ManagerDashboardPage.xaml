@@ -6,7 +6,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="Дашборд менеджера" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
     <Grid>
         <!-- Основной контент -->
@@ -36,7 +37,7 @@
                                    Foreground="#c69fd5"
                                    Margin="0,0,15,0"/>
 
-                        <TextBlock Text="Панель управления"
+                        <TextBlock Text="Панель управления менеджера"
                                    FontSize="24" 
                                    FontWeight="Bold"
                                    Foreground="#333333"/>
@@ -44,21 +45,17 @@
 
                     <!-- Карточки статистики -->
                     <WrapPanel Margin="0,0,0,30">
-                        <!-- Карточка 1 -->
+                        <!-- Карточка 1: Новые заказы -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
-                                Margin="0,0,20,20">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                                Margin="0,0,20,20"
+                                CornerRadius="10">
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="10"
+                                <TextBlock x:Name="txtNewOrders"
+                                           Text="0"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -68,21 +65,17 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Карточка 2 -->
+                        <!-- Карточка 2: Заказы в работе -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
-                                Margin="0,0,20,20">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                                Margin="0,0,20,20"
+                                CornerRadius="10">
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="5"
+                                <TextBlock x:Name="txtOrdersInProgress"
+                                           Text="0"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -92,21 +85,17 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Карточка 3 -->
+                        <!-- Карточка 3: Выручка -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
-                                Margin="0,0,20,20">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                                Margin="0,0,20,20"
+                                CornerRadius="10">
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="25 400 ₽"
+                                <TextBlock x:Name="txtRevenue"
+                                           Text="0 ₽"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -116,21 +105,17 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Карточка 4 -->
+                        <!-- Карточка 4: Новые клиенты -->
                         <Border Width="250" 
                                 Height="120"
                                 Background="#fdfdc9"
-                                Margin="0,0,20,20">
-
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"/>
-                                </Style>
-                            </Border.Style>
+                                Margin="0,0,20,20"
+                                CornerRadius="10">
 
                             <StackPanel HorizontalAlignment="Center"
                                         VerticalAlignment="Center">
-                                <TextBlock Text="3"
+                                <TextBlock x:Name="txtNewClients"
+                                           Text="0"
                                            FontSize="28" 
                                            FontWeight="Bold"
                                            Foreground="#c69fd5"/>
@@ -147,6 +132,7 @@
                                FontWeight="Bold"
                                Margin="0,0,0,20"/>
 
+                    <!-- Первая строка кнопок -->
                     <WrapPanel Margin="0,0,0,30">
                         <Button Content="Управление услугами"
                                 Width="200" 
@@ -155,7 +141,8 @@
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand" Click="Button_Click">
+                                Cursor="Hand" 
+                                Click="GoToServices">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -189,7 +176,8 @@
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand" Click="Button_Click_1">
+                                Cursor="Hand" 
+                                Click="GoToOrders">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -223,7 +211,8 @@
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand" Click="Button_Click_2">
+                                Cursor="Hand" 
+                                Click="GoToClients">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -257,7 +246,8 @@
                                 Background="#c69fd5"
                                 Foreground="White"
                                 FontSize="14"
-                                Cursor="Hand" Click="Button_Click_3">
+                                Cursor="Hand" 
+                                Click="GoToMaterials">
 
                             <Button.Style>
                                 <Style TargetType="Button">
@@ -285,6 +275,257 @@
                         </Button>
                     </WrapPanel>
 
+                    <!-- Вторая строка кнопок -->
+                    <WrapPanel Margin="0,0,0,30">
+                        <Button Content="Категории услуг"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToServiceCategories">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Content="Типы изделий"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToItemTypes">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Content="Поставщики"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToSuppliers">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Content="Поставки материалов"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToMaterialSupplies">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </WrapPanel>
+
+                    <!-- Третья строка кнопок -->
+                    <WrapPanel Margin="0,0,0,30">
+                        <Button Content="Отзывы"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToReviews">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <Button Content="Учет материалов"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToMaterialUsages">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <!--<Button Content="Активные корзины"
+                                Width="200" 
+                                Height="50"
+                                Margin="0,0,20,20"
+                                Background="#c69fd5"
+                                Foreground="White"
+                                FontSize="14"
+                                Cursor="Hand" 
+                                Click="GoToActiveCarts">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border"
+                                                        CornerRadius="5"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>-->
+                    </WrapPanel>
+
                     <!-- Последние заказы -->
                     <TextBlock Text="Последние заказы"
                                FontSize="18" 
@@ -293,19 +534,17 @@
 
                     <Border Background="#fdfdc9"
                             Padding="15"
-                            Margin="0,0,0,30">
-
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Border.Style>
+                            Margin="0,0,0,30"
+                            CornerRadius="10">
 
                         <DataGrid x:Name="recentOrdersGrid"
                                   AutoGenerateColumns="False"
                                   CanUserAddRows="False"
                                   BorderThickness="0"
-                                  Background="Transparent">
+                                  Background="Transparent"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  HeadersVisibility="Column">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="№" 
@@ -326,7 +565,31 @@
 
                                 <DataGridTextColumn Header="Статус" 
                                                     Binding="{Binding Status}"
-                                                    Width="100"/>
+                                                    Width="100">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="Выдан">
+                                                    <Setter Property="Foreground" Value="Green"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Готов">
+                                                    <Setter Property="Foreground" Value="#FF9800"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="В работе">
+                                                    <Setter Property="Foreground" Value="#2196F3"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Принят">
+                                                    <Setter Property="Foreground" Value="#9C27B0"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Отменен">
+                                                    <Setter Property="Foreground" Value="#F44336"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Border>

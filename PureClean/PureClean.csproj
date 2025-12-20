@@ -114,6 +114,12 @@
     <Compile Include="Orders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AddEditServiceCategoryWindow.xaml.cs">
+      <DependentUpon>AddEditServiceCategoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AddEditServiceWindow.xaml.cs">
+      <DependentUpon>AddEditServiceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AddEditUserWindow.xaml.cs">
       <DependentUpon>AddEditUserWindow.xaml</DependentUpon>
     </Compile>
@@ -132,8 +138,35 @@
     <Compile Include="Pages\ClientsManagementPage.xaml.cs">
       <DependentUpon>ClientsManagementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditClientWindow.xaml.cs">
+      <DependentUpon>EditClientWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditItemTypeWindow.xaml.cs">
+      <DependentUpon>EditItemTypeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditMaterialUsageWindow.xaml.cs">
+      <DependentUpon>EditMaterialUsageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditMaterialWindow.xaml.cs">
+      <DependentUpon>EditMaterialWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditOrderStatusWindow.xaml.cs">
+      <DependentUpon>EditOrderStatusWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditReviewWindow.xaml.cs">
+      <DependentUpon>EditReviewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditSupplierWindow.xaml.cs">
+      <DependentUpon>EditSupplierWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditSupplyWindow.xaml.cs">
+      <DependentUpon>EditSupplyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\GenericTableViewPage.xaml.cs">
       <DependentUpon>GenericTableViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ItemTypesManagementPage.xaml.cs">
+      <DependentUpon>ItemTypesManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -144,8 +177,20 @@
     <Compile Include="Pages\MaterialsManagementPage.xaml.cs">
       <DependentUpon>MaterialsManagementPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MaterialSuppliesPage.xaml.cs">
+      <DependentUpon>MaterialSuppliesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MaterialUsagesPage.xaml.cs">
+      <DependentUpon>MaterialUsagesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyOrdersPage.xaml.cs">
       <DependentUpon>MyOrdersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewMaterialUsageWindow.xaml.cs">
+      <DependentUpon>NewMaterialUsageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NewSupplyWindow.xaml.cs">
+      <DependentUpon>NewSupplyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OrderCreationPage.xaml.cs">
       <DependentUpon>OrderCreationPage.xaml</DependentUpon>
@@ -162,11 +207,20 @@
     <Compile Include="Pages\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ReviewsManagementPage.xaml.cs">
+      <DependentUpon>ReviewsManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ServiceCategoriesManagementPage.xaml.cs">
+      <DependentUpon>ServiceCategoriesManagementPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ServiceDetailsPage.xaml.cs">
       <DependentUpon>ServiceDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ServicesManagementPage.xaml.cs">
       <DependentUpon>ServicesManagementPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SuppliersManagementPage.xaml.cs">
+      <DependentUpon>SuppliersManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UsersManagementPage.xaml.cs">
       <DependentUpon>UsersManagementPage.xaml</DependentUpon>
@@ -206,6 +260,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AddEditServiceCategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AddEditServiceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AddEditUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -230,7 +292,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditItemTypeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditMaterialUsageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditMaterialWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditOrderStatusWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditReviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditSupplierWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditSupplyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\GenericTableViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ItemTypesManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -246,7 +344,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\MaterialSuppliesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MaterialUsagesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MyOrdersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewMaterialUsageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NewSupplyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -270,11 +384,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ReviewsManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ServiceCategoriesManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ServiceDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ServicesManagementPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SuppliersManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

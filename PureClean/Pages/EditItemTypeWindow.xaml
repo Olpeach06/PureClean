@@ -1,0 +1,149 @@
+﻿<Window x:Class="PureClean.Pages.EditItemTypeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование типа изделия" 
+        Height="500" 
+        Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#fdfdc9">
+
+    <Grid>
+        <Border Background="White" Margin="15" Padding="20" CornerRadius="10">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Opacity="0.1" ShadowDepth="3"/>
+            </Border.Effect>
+
+            <StackPanel>
+                <TextBlock Text="👕 Данные типа изделия" 
+                           FontSize="18" 
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"
+                           Foreground="#333333"/>
+
+                <StackPanel>
+                    <!-- Название типа -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Название типа*" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtName"
+                                 Height="35"
+                                 FontSize="14"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <!-- Материал -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Материал" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtMaterial"
+                                 Height="35"
+                                 FontSize="14"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <!-- Инструкции по уходу -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="Инструкции по уходу" 
+                                   FontSize="14" 
+                                   Foreground="#666666"
+                                   Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCareInstructions"
+                                 Height="100"
+                                 FontSize="14"
+                                 BorderBrush="#c69fd5"
+                                 BorderThickness="1"
+                                 Padding="5"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right"
+                            Margin="0,20,0,0">
+
+                    <Button Content="Отмена"
+                            Width="100" 
+                            Height="35"
+                            Background="Transparent"
+                            Foreground="#666666"
+                            BorderBrush="#666666"
+                            BorderThickness="1"
+                            FontSize="13"
+                            Margin="0,0,10,0"
+                            Cursor="Hand"
+                            Click="btnCancel_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button x:Name="btnSave"
+                            Content="Сохранить"
+                            Width="100" 
+                            Height="35"
+                            Background="#c69fd5"
+                            Foreground="White"
+                            FontSize="13"
+                            Cursor="Hand"
+                            Click="btnSave_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#b289c7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

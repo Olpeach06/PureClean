@@ -32,10 +32,48 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Заголовок и кнопки -->
+                <!-- Заголовок и кнопки (добавил кнопку Назад) -->
                 <StackPanel Grid.Row="0" 
                             Orientation="Horizontal"
                             Margin="0,0,0,30">
+
+                    <!-- Кнопка Назад -->
+                    <Button x:Name="btnBack"
+                            Content="← Назад"
+                            Width="100"
+                            Height="40"
+                            Margin="0,0,20,0"
+                            Background="Transparent"
+                            Foreground="#666666"
+                            BorderBrush="#666666"
+                            BorderThickness="1"
+                            FontSize="14"
+                            Cursor="Hand"
+                            Click="btnBack_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#f5f5f5"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                     <TextBlock Text="📦" 
                                FontSize="32"
@@ -47,7 +85,8 @@
                                FontWeight="Bold"
                                Foreground="#333333"/>
 
-                    <Button Content="+ Добавить материал"
+                    <Button x:Name="btnAddMaterial"
+                            Content="+ Добавить материал"
                             Background="#c69fd5"
                             Foreground="White"
                             Width="200"
@@ -55,7 +94,8 @@
                             FontSize="14"
                             FontWeight="Bold"
                             Margin="30,0,0,0"
-                            Cursor="Hand">
+                            Cursor="Hand"
+                            Click="btnAddMaterial_Click">
 
                         <Button.Style>
                             <Style TargetType="Button">
@@ -82,7 +122,8 @@
                         </Button.Style>
                     </Button>
 
-                    <Button Content="Новая поставка"
+                    <Button x:Name="btnNewSupply"
+                            Content="Новая поставка"
                             Background="Transparent"
                             Foreground="#c69fd5"
                             BorderThickness="1"
@@ -91,7 +132,8 @@
                             Height="40"
                             FontSize="14"
                             Margin="10,0,0,0"
-                            Cursor="Hand">
+                            Cursor="Hand"
+                            Click="btnNewSupply_Click">
 
                         <Button.Style>
                             <Style TargetType="Button">
@@ -154,7 +196,7 @@
                                                         Width="100"/>
 
                                     <DataGridTextColumn Header="Мин. запас" 
-                                                        Binding="{Binding MinQuantity}"
+                                                        Binding="{Binding MinQuantityText}"
                                                         Width="100"/>
 
                                     <DataGridTemplateColumn Header="Статус" 
@@ -166,7 +208,8 @@
                                                         CornerRadius="3">
                                                     <TextBlock Text="{Binding Status}"
                                                                Foreground="White"
-                                                               HorizontalAlignment="Center"/>
+                                                               HorizontalAlignment="Center"
+                                                               FontWeight="SemiBold"/>
                                                 </Border>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -183,6 +226,8 @@
                                                             Background="Transparent"
                                                             BorderThickness="0"
                                                             Cursor="Hand"
+                                                            Click="btnEditMaterial_Click"
+                                                            Tag="{Binding MaterialID}"
                                                             Margin="0,0,5,0"/>
 
                                                     <Button Content="🗑️"
@@ -191,7 +236,9 @@
                                                             Background="Transparent"
                                                             Foreground="#FF4444"
                                                             BorderThickness="0"
-                                                            Cursor="Hand"/>
+                                                            Cursor="Hand"
+                                                            Click="btnDeleteMaterial_Click"
+                                                            Tag="{Binding MaterialID}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -249,29 +296,26 @@
 
                 <!-- Итоги -->
                 <Border Grid.Row="2"
-                        Background="#fdfdc9"
+                        Background="#e8f5e8"
                         Padding="15"
-                        Margin="0,20,0,0">
-
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Border.Style>
+                        Margin="0,20,0,0"
+                        CornerRadius="10">
 
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Материалов на складе:"
+                        <TextBlock Text="📊 Материалов на складе:"
                                    FontWeight="SemiBold"
                                    Margin="0,0,10,0"/>
-                        <TextBlock Text="15"
+                        <TextBlock x:Name="txtTotalMaterials"
+                                   Text="0"
                                    Foreground="#c69fd5"
                                    FontWeight="Bold"
                                    Margin="0,0,30,0"/>
 
-                        <TextBlock Text="Требуется заказ:"
+                        <TextBlock Text="⚠️ Требуется заказ:"
                                    FontWeight="SemiBold"
                                    Margin="0,0,10,0"/>
-                        <TextBlock Text="3"
+                        <TextBlock x:Name="txtNeedOrderCount"
+                                   Text="0"
                                    Foreground="#FF4444"
                                    FontWeight="Bold"/>
                     </StackPanel>

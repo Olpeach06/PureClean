@@ -6,7 +6,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="Управление заказами" 
-      Background="#fdfdc9">
+      Background="#fdfdc9"
+      Loaded="Page_Loaded">
 
     <Grid>
         <!-- Основной контент -->
@@ -28,139 +29,254 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Заголовок и фильтры -->
+                <!-- Заголовок и кнопка Назад -->
                 <StackPanel Grid.Row="0" 
+                            Orientation="Horizontal"
                             Margin="0,0,0,30">
 
-                    <StackPanel Orientation="Horizontal" 
-                                Margin="0,0,0,20">
-                        <TextBlock Text="📋" 
-                                   FontSize="32"
-                                   Foreground="#c69fd5"
-                                   Margin="0,0,15,0"/>
+                    <Button x:Name="btnBack"
+                            Content="← Назад"
+                            Width="100"
+                            Height="40"
+                            Margin="0,0,20,0"
+                            Background="Transparent"
+                            Foreground="#666666"
+                            BorderBrush="#666666"
+                            BorderThickness="1"
+                            FontSize="14"
+                            Cursor="Hand"
+                            Click="btnBack_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border"
+                                                    CornerRadius="5"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#f5f5f5"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
-                        <TextBlock Text="Все заказы"
-                                   FontSize="24" 
-                                   FontWeight="Bold"
-                                   Foreground="#333333"/>
-                    </StackPanel>
+                    <TextBlock Text="📋" 
+                               FontSize="32"
+                               Foreground="#c69fd5"
+                               Margin="0,0,15,0"
+                               VerticalAlignment="Center"/>
 
-                    <!-- Фильтры -->
-                    <WrapPanel>
-                        <ComboBox Width="150" 
-                                  Margin="0,0,10,10">
-
-                            <ComboBox.Style>
-                                <Style TargetType="ComboBox">
-                                    <Setter Property="BorderBrush" Value="#c69fd5"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Padding" Value="5"/>
-                                </Style>
-                            </ComboBox.Style>
-
-                            <ComboBoxItem Content="Все статусы"/>
-                            <ComboBoxItem Content="Принят"/>
-                            <ComboBoxItem Content="В работе"/>
-                            <ComboBoxItem Content="Готов"/>
-                            <ComboBoxItem Content="Выдан"/>
-                        </ComboBox>
-
-                        <DatePicker Width="150" 
-                                    Margin="0,0,10,10"/>
-
-                        <DatePicker Width="150" 
-                                    Margin="0,0,10,10"/>
-
-                        <Button Content="ПРИМЕНИТЬ"
-                                Background="Transparent"
-                                Foreground="#666666"
-                                BorderThickness="1"
-                                BorderBrush="#666666"
-                                Height="35"
-                                FontSize="13"
-                                Margin="0,0,10,10"
-                                Cursor="Hand">
-
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-
-                        <Button Content="ЭКСПОРТ"
-                                Background="#c69fd5"
-                                Foreground="White"
-                                Height="35"
-                                FontSize="13"
-                                Margin="0,0,10,10"
-                                Cursor="Hand">
-
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="border"
-                                                        CornerRadius="5"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                                      VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="border" Property="Background" Value="#b289c7"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </WrapPanel>
+                    <TextBlock Text="Управление заказами"
+                               FontSize="24" 
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- Таблица заказов -->
+                <!-- Панель фильтров -->
                 <Border Grid.Row="1"
                         Background="#fdfdc9"
-                        Padding="15">
+                        Padding="20"
+                        Margin="0,0,0,20"
+                        CornerRadius="10">
 
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </Border.Style>
+                    <StackPanel>
+                        <!-- Поиск и фильтры -->
+                        <WrapPanel>
+                            <!-- Поиск -->
+                            <StackPanel Orientation="Horizontal" 
+                                        Margin="0,0,20,10">
+                                <Label Content="Поиск:"
+                                       FontSize="14"
+                                       Foreground="#333333"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+
+                                <TextBox x:Name="txtSearch"
+                                         Width="200"
+                                         Padding="10"
+                                         FontSize="14"
+                                         TextChanged="txtSearch_TextChanged"
+                                         BorderBrush="#c69fd5"
+                                         BorderThickness="1">
+                                    <TextBox.Template>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border CornerRadius="5" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Background="{TemplateBinding Background}">
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </TextBox.Template>
+                                </TextBox>
+                            </StackPanel>
+
+                            <!-- Статус -->
+                            <StackPanel Orientation="Horizontal" 
+                                        Margin="0,0,20,10">
+                                <Label Content="Статус:"
+                                       FontSize="14"
+                                       Foreground="#333333"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+
+                                <ComboBox x:Name="cmbStatus"
+                                          Width="150"
+                                          SelectionChanged="cmbStatus_SelectionChanged"
+                                          BorderBrush="#c69fd5"
+                                          BorderThickness="1">
+                                    <ComboBoxItem Content="Все статусы" Tag=""/>
+                                    <ComboBoxItem Content="Принят" Tag="Принят"/>
+                                    <ComboBoxItem Content="В работе" Tag="В работе"/>
+                                    <ComboBoxItem Content="Готов" Tag="Готов"/>
+                                    <ComboBoxItem Content="Выдан" Tag="Выдан"/>
+                                    <ComboBoxItem Content="Отменен" Tag="Отменен"/>
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Дата от -->
+                            <StackPanel Orientation="Horizontal" 
+                                        Margin="0,0,20,10">
+                                <Label Content="Дата от:"
+                                       FontSize="14"
+                                       Foreground="#333333"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+
+                                <DatePicker x:Name="dpFromDate"
+                                            Width="150"
+                                            SelectedDateChanged="DatePicker_Changed"/>
+                            </StackPanel>
+
+                            <!-- Дата до -->
+                            <StackPanel Orientation="Horizontal" 
+                                        Margin="0,0,20,10">
+                                <Label Content="Дата до:"
+                                       FontSize="14"
+                                       Foreground="#333333"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,10,0"/>
+
+                                <DatePicker x:Name="dpToDate"
+                                            Width="150"
+                                            SelectedDateChanged="DatePicker_Changed"/>
+                            </StackPanel>
+
+                            <!-- Кнопки -->
+                            <StackPanel Orientation="Horizontal" 
+                                        Margin="0,0,0,10">
+                                <Button x:Name="btnApplyFilters"
+                                        Content="Применить"
+                                        Background="Transparent"
+                                        Foreground="#666666"
+                                        BorderThickness="1"
+                                        BorderBrush="#666666"
+                                        Width="120"
+                                        Height="35"
+                                        FontSize="13"
+                                        Margin="0,0,10,0"
+                                        Cursor="Hand"
+                                        Click="btnApplyFilters_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="border"
+                                                                CornerRadius="5"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                                <Button x:Name="btnClearFilters"
+                                        Content="Сбросить"
+                                        Background="Transparent"
+                                        Foreground="#666666"
+                                        BorderThickness="1"
+                                        BorderBrush="#666666"
+                                        Width="120"
+                                        Height="35"
+                                        FontSize="13"
+                                        Margin="0,0,10,0"
+                                        Cursor="Hand"
+                                        Click="btnClearFilters_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="border"
+                                                                CornerRadius="5"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="border" Property="Background" Value="#f0f0f0"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Таблица заказов -->
+                <Border Grid.Row="2"
+                        Background="#fdfdc9"
+                        Padding="15"
+                        CornerRadius="10"
+                        Margin="0,0,0,20">
 
                     <DataGrid x:Name="ordersGrid"
                               AutoGenerateColumns="False"
                               CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              IsReadOnly="True"
                               SelectionMode="Single"
+                              SelectionChanged="ordersGrid_SelectionChanged"
                               BorderThickness="0"
-                              Background="Transparent">
+                              Background="Transparent"
+                              RowHeight="40">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№" 
@@ -173,19 +289,57 @@
 
                             <DataGridTextColumn Header="Дата приема" 
                                                 Binding="{Binding AcceptanceDate}"
-                                                Width="100"/>
+                                                Width="110"/>
 
                             <DataGridTextColumn Header="План сдачи" 
                                                 Binding="{Binding PlannedDate}"
-                                                Width="100"/>
+                                                Width="110"/>
 
                             <DataGridTextColumn Header="Сумма" 
                                                 Binding="{Binding Amount}"
-                                                Width="100"/>
+                                                Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="Foreground" Value="#c69fd5"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
 
                             <DataGridTextColumn Header="Статус" 
                                                 Binding="{Binding Status}"
-                                                Width="100"/>
+                                                Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                        <Setter Property="Padding" Value="5,2"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Status}" Value="Выдан">
+                                                <Setter Property="Background" Value="#E8F5E8"/>
+                                                <Setter Property="Foreground" Value="#2E7D32"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Готов">
+                                                <Setter Property="Background" Value="#FFF3E0"/>
+                                                <Setter Property="Foreground" Value="#EF6C00"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="В работе">
+                                                <Setter Property="Background" Value="#E3F2FD"/>
+                                                <Setter Property="Foreground" Value="#1565C0"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Принят">
+                                                <Setter Property="Background" Value="#F3E5F5"/>
+                                                <Setter Property="Foreground" Value="#7B1FA2"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Status}" Value="Отменен">
+                                                <Setter Property="Background" Value="#FFEBEE"/>
+                                                <Setter Property="Foreground" Value="#C62828"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
 
                             <DataGridTemplateColumn Header="Действия" 
                                                     Width="120">
@@ -193,25 +347,107 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="👁️"
-                                                    Width="30" 
-                                                    Height="30"
+                                                    ToolTip="Просмотреть детали"
                                                     Background="Transparent"
                                                     BorderThickness="0"
                                                     Cursor="Hand"
-                                                    Margin="0,0,5,0"/>
+                                                    Click="btnView_Click"
+                                                    Tag="{Binding OrderId}"
+                                                    Margin="0,0,5,0">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <Border Background="Transparent">
+                                                                        <ContentPresenter HorizontalAlignment="Center"
+                                                                                          VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
 
                                             <Button Content="✏️"
-                                                    Width="30" 
-                                                    Height="30"
+                                                    ToolTip="Редактировать статус"
                                                     Background="Transparent"
                                                     BorderThickness="0"
-                                                    Cursor="Hand"/>
+                                                    Cursor="Hand"
+                                                    Click="btnEdit_Click"
+                                                    Tag="{Binding OrderId}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+                                                                    <Border Background="Transparent">
+                                                                        <ContentPresenter HorizontalAlignment="Center"
+                                                                                          VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                </Border>
+
+                <!-- Статистика -->
+                <Border Grid.Row="3"
+                        Background="#e8f5e8"
+                        Padding="15"
+                        CornerRadius="10">
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📊 Всего заказов: "
+                                   FontSize="14"
+                                   Foreground="#333333"/>
+                        <TextBlock x:Name="txtTotalCount"
+                                   Text="0"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="#c69fd5"
+                                   Margin="5,0,30,0"/>
+
+                        <TextBlock Text="Сумма всех заказов: "
+                                   FontSize="14"
+                                   Foreground="#333333"
+                                   Margin="20,0,0,0"/>
+                        <TextBlock x:Name="txtTotalAmount"
+                                   Text="0 ₽"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="#c69fd5"
+                                   Margin="5,0,30,0"/>
+
+                        <TextBlock Text="В работе: "
+                                   FontSize="14"
+                                   Foreground="#333333"/>
+                        <TextBlock x:Name="txtInProgressCount"
+                                   Text="0"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="#1565C0"
+                                   Margin="5,0,30,0"/>
+
+                        <TextBlock Text="Готово: "
+                                   FontSize="14"
+                                   Foreground="#333333"/>
+                        <TextBlock x:Name="txtReadyCount"
+                                   Text="0"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="#EF6C00"
+                                   Margin="5,0,0,0"/>
+                    </StackPanel>
                 </Border>
             </Grid>
         </Border>
